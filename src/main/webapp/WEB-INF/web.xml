@@ -12,7 +12,7 @@
         <init-param>
             <description>Vaadin application class to start</description>
             <param-name>application</param-name>
-            <param-value>com.test.ramboia.RamboiaApplication</param-value>
+            <param-value>pt.yellowduck.ramboia.RamboiaApplication</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
