@@ -1,15 +1,32 @@
+/*
+ * Copyright (C) 2012 yellowduck
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package pt.yellowduck.ramboia;
-
-import pt.yellowduck.ramboia.backend.Server;
-import org.bff.javampd.objects.MPDSong;
-
 import com.vaadin.Application;
 import com.vaadin.data.Container;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import pt.yellowduck.ramboia.frontend.*;
+import org.bff.javampd.objects.MPDSong;
+import pt.yellowduck.ramboia.backend.Server;
+import pt.yellowduck.ramboia.frontend.MusicTable;
+import pt.yellowduck.ramboia.frontend.Player;
+import pt.yellowduck.ramboia.frontend.Song;
+import pt.yellowduck.ramboia.frontend.SongContainer;
 
 
 @SuppressWarnings("serial")

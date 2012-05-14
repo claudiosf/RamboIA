@@ -13,6 +13,7 @@
 		<vaadin.version>6.7.1</vaadin.version>
 		<gwt.version>2.3.0</gwt.version>
 		<gwt.plugin.version>2.2.0</gwt.plugin.version>
+                <netbeans.hint.license>gpl30</netbeans.hint.license>
 	 <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
 	</properties>
 
