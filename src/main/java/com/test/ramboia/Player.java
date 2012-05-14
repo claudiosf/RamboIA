@@ -2,30 +2,28 @@ package com.test.ramboia;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.Slider;
 
 public class Player extends HorizontalLayout{
 	
 	private Button.ClickListener listener;
 	private Button play;
 	private Button stop;
-	private TextField title;
+	private Slider slider;
 	
 	public Player(Button.ClickListener listener){
 		this.listener = listener;
 		
-		play = new Button("play", listener);
-		stop = new Button("stop", listener);
-		title = new TextField();
+		play = new Button("play", listener, "buttonPlayClick");
+		stop = new Button("stop", listener, "buttonStopClick");
+
+		slider = new Slider(1, 100);
+		slider.setOrientation(Slider.ORIENTATION_HORIZONTAL);
+		slider.setWidth("50%");
 		
-		title.setEnabled(false);
-		
-		this.addComponent(title);
 		this.addComponent(play);
 		this.addComponent(stop);
+		this.addComponent(slider);
 	}
 
-	public void setTitle(String t){
-		title.setValue(t);
-	}
 }

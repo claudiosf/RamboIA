@@ -4,19 +4,12 @@ import org.bff.javampd.objects.MPDSong;
 
 import com.vaadin.Application;
 import com.vaadin.data.Container;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
-/**
- * Sample application layout, similar (almost identical) to Apple iTunes.
- * 
- * @author IT Mill Ltd.
- * 
- */
+
 @SuppressWarnings("serial")
 public class RamboiaApplication extends Application implements ClickListener {
 
@@ -65,9 +58,20 @@ public class RamboiaApplication extends Application implements ClickListener {
 		return container;
 	}
 
+	public void buttonPlayClick(ClickEvent event) {
+		server.play();
+	}
+
+	public void buttonStopClick(ClickEvent event) {
+		server.stop();
+	}
+	
 	public void buttonClick(ClickEvent event) {
-		Button button = event.getButton();
-		if(button != null)
-			player.setTitle(button.getCaption());
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public Song getCurrentSong(){
+		return server.getCurrentSong();
 	}
 }
