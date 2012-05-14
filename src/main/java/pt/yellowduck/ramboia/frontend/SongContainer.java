@@ -1,4 +1,4 @@
-package com.test.ramboia;
+package pt.yellowduck.ramboia.frontend;
 
 import java.io.Serializable;
 

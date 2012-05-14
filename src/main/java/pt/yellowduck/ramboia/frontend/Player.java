@@ -1,4 +1,4 @@
-package com.test.ramboia;
+package pt.yellowduck.ramboia.frontend;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;

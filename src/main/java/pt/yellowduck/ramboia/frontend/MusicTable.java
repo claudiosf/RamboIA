@@ -1,6 +1,7 @@
-package com.test.ramboia;
+package pt.yellowduck.ramboia.frontend;
 
 import com.vaadin.ui.Table;
+import pt.yellowduck.ramboia.RamboiaApplication;
 
 public class MusicTable extends Table{
 	

@@ -1,4 +1,4 @@
-package com.test.ramboia;
+package pt.yellowduck.ramboia.backend;
 
 import java.net.UnknownHostException;
 import java.util.Collection;
@@ -11,6 +11,7 @@ import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDDatabaseException;
 import org.bff.javampd.exception.MPDPlayerException;
 import org.bff.javampd.objects.MPDSong;
+import pt.yellowduck.ramboia.frontend.Song;
 
 public class Server {
 
@@ -21,7 +22,7 @@ public class Server {
 
 	public Server(){
 		try {
-			mpd = new MPD("localhost", 6600);
+			mpd = new MPD("172.19.232.41", 6600);
 			player = mpd.getMPDPlayer();
 			playlist = mpd.getMPDPlaylist();
 			database = mpd.getMPDDatabase();

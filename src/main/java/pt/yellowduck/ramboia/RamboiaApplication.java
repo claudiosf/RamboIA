@@ -1,5 +1,6 @@
-package com.test.ramboia;
+package pt.yellowduck.ramboia;
 
+import pt.yellowduck.ramboia.backend.Server;
 import org.bff.javampd.objects.MPDSong;
 
 import com.vaadin.Application;
@@ -8,6 +9,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import pt.yellowduck.ramboia.frontend.*;
 
 
 @SuppressWarnings("serial")
