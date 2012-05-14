@@ -20,7 +20,7 @@ public class Server {
 	
 	public Server(){
 		try {
-			mpd = new MPD("localhost", 6600);
+			mpd = new MPD("172.19.232.41", 6600);
 			player = mpd.getMPDPlayer();
 			playlist = mpd.getMPDPlaylist();
 			database = mpd.getMPDDatabase();

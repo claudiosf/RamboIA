@@ -13,6 +13,7 @@
 		<vaadin.version>6.7.1</vaadin.version>
 		<gwt.version>2.3.0</gwt.version>
 		<gwt.plugin.version>2.2.0</gwt.plugin.version>
+	 <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
 	</properties>
 
 	<build>
@@ -90,16 +91,7 @@
 				</executions>
 			</plugin>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>tomcat-maven-plugin</artifactId>
-				<version>1.1</version>
-				<configuration>
-					<username>admin</username>
-					<password>tomcat</password>
-					<url>http://192.168.1.5:8080/manager/html</url>
-				</configuration>
-			</plugin>
+			
 
 		</plugins>
 	</build>
