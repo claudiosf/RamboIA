@@ -41,8 +41,8 @@ public class RamboiaApplication extends Application {
 		setTheme( "runo" );
 
 		try {
-//			this.server = new Server( "172.19.232.41" );
-			this.server = new Server( "192.168.1.3" );
+			String mpdUrl = System.getProperty("mpdUrl");
+			this.server = new Server( mpdUrl );
 		} catch ( MPDConnectionException e ) {
 			e.printStackTrace();
 		} catch ( UnknownHostException e ) {
