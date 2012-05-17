@@ -17,10 +17,12 @@
 package pt.yellowduck.ramboia;
 
 import com.vaadin.Application;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import java.net.UnknownHostException;
 import org.bff.javampd.exception.MPDConnectionException;
+import org.bff.javampd.exception.MPDResponseException;
 import pt.yellowduck.ramboia.backend.Server;
 import pt.yellowduck.ramboia.frontend.library.LibraryController;
 import pt.yellowduck.ramboia.frontend.library.LibraryInterface;
@@ -42,7 +44,7 @@ public class RamboiaApplication extends Application {
 
 		try {
 			String mpdUrl = System.getProperty("mpdUrl");
-			this.server = new Server( mpdUrl );
+			this.server = new Server( "192.168.1.3" );
 		} catch ( MPDConnectionException e ) {
 			e.printStackTrace();
 		} catch ( UnknownHostException e ) {
@@ -53,6 +55,19 @@ public class RamboiaApplication extends Application {
 		this.libraryPresenter = new LibraryController( this );
 
 		buildMainLayout();
+	}
+
+
+	@Override
+	public void close() {
+		System.out.println( "Session invalidated. Cleaning resources ...");
+		try {
+			getServer().close();
+		} catch ( MPDConnectionException e ) {
+			e.printStackTrace();
+		} catch ( MPDResponseException e ) {
+			e.printStackTrace();
+		}
 	}
 
 	private void buildMainLayout() {

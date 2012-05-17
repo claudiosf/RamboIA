@@ -1,6 +1,7 @@
 package pt.yellowduck.ramboia.frontend.player;
 
 import com.vaadin.ui.AbstractComponent;
+import pt.yellowduck.ramboia.backend.model.Song;
 
 /**
  * User: laught
@@ -9,6 +10,8 @@ import com.vaadin.ui.AbstractComponent;
 public interface PlayerInterface {
 
 	public void setPresenter( PlayerPresenter presenter );
+
+	public void updateTrackPosition( Song song, long elapsedTime );
 
 	public interface PlayerPresenter {
 

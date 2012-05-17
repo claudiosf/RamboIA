@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDPlayerException;
+import org.bff.javampd.exception.MPDPlaylistException;
 import org.bff.javampd.objects.MPDSong;
 import pt.yellowduck.ramboia.RamboiaApplication;
 import pt.yellowduck.ramboia.backend.model.Song;
@@ -45,6 +46,8 @@ public class LibraryController implements LibraryInterface.LibraryPresenter{
 			} catch ( MPDConnectionException e ) {
 				e.printStackTrace();
 			} catch ( MPDPlayerException e ) {
+				e.printStackTrace();
+			} catch ( MPDPlaylistException e ) {
 				e.printStackTrace();
 			}
 		}
