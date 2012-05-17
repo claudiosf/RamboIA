@@ -15,82 +15,59 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package pt.yellowduck.ramboia;
+
 import com.vaadin.Application;
-import com.vaadin.data.Container;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import org.bff.javampd.objects.MPDSong;
+import java.net.UnknownHostException;
+import org.bff.javampd.exception.MPDConnectionException;
 import pt.yellowduck.ramboia.backend.Server;
-import pt.yellowduck.ramboia.frontend.MusicTable;
-import pt.yellowduck.ramboia.frontend.Player;
-import pt.yellowduck.ramboia.frontend.Song;
-import pt.yellowduck.ramboia.frontend.SongContainer;
+import pt.yellowduck.ramboia.frontend.library.LibraryController;
+import pt.yellowduck.ramboia.frontend.library.LibraryInterface;
+import pt.yellowduck.ramboia.frontend.player.PlayerController;
+import pt.yellowduck.ramboia.frontend.player.PlayerInterface;
 
 
-@SuppressWarnings("serial")
-public class RamboiaApplication extends Application implements ClickListener {
+public class RamboiaApplication extends Application {
 
 	private Server server;
-	private Player player;
-	private MusicTable musicTable;
-	
+
+	private PlayerInterface.PlayerPresenter playerPresenter;
+
+	private LibraryInterface.LibraryPresenter libraryPresenter;
+
 	@Override
 	public void init() {
-		server = new Server();
-		setTheme("runo");
+		setTheme( "runo" );
+
+		try {
+//			this.server = new Server( "172.19.232.41" );
+			this.server = new Server( "192.168.1.3" );
+		} catch ( MPDConnectionException e ) {
+			e.printStackTrace();
+		} catch ( UnknownHostException e ) {
+			e.printStackTrace();
+		}
+
+		this.playerPresenter = new PlayerController( this );
+		this.libraryPresenter = new LibraryController( this );
+
 		buildMainLayout();
 	}
 
 	private void buildMainLayout() {
-		setMainWindow(new Window("RamboIA"));
+		setMainWindow( new Window( "RamboIA" ) );
 
 		VerticalLayout layout = new VerticalLayout();
-
-		MusicTable musicTable = new MusicTable(this);
-		player = new Player(this);
-		
 		layout.setSizeFull();
-		layout.addComponent(new Player(this));
-		layout.addComponent(musicTable);
+		layout.addComponent( playerPresenter.getView() );
+		layout.addComponent( libraryPresenter.getView() );
 
-		getMainWindow().setContent(layout);
-	}
-
-	public Container getTableData() {
-		SongContainer container = null;
-		try {
-			container = new SongContainer();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		if(container != null){
-			for(MPDSong song : server.getAllSongs()){
-				Song s = new Song();
-				s.setFilename(song.getName());
-				container.addBean(s);
-			}
-		}
-		return container;
+		getMainWindow().setContent( layout );
 	}
 
-	public void buttonPlayClick(ClickEvent event) {
-		server.play();
+	public Server getServer() {
+		return server;
 	}
 
-	public void buttonStopClick(ClickEvent event) {
-		server.stop();
-	}
-	
-	public void buttonClick(ClickEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public Song getCurrentSong(){
-		return server.getCurrentSong();
-	}
 }

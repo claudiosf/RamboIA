@@ -14,22 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package pt.yellowduck.ramboia.frontend;
+package pt.yellowduck.ramboia.backend.model;
 
-import java.io.Serializable;
+import org.bff.javampd.objects.MPDSong;
 
-import com.vaadin.data.util.BeanItemContainer;
-import pt.yellowduck.ramboia.backend.model.Song;
-
-public class SongContainer extends BeanItemContainer<Song> implements Serializable {
+public class Song {
 
 	private static final long serialVersionUID = 1L;
+	
+	private final MPDSong song;
 
-	public static final Object[] NATURAL_COL_ORDER = new Object[] {"filename"};
-	
-	public static final String[] COL_HEADERS_ENGLISH = new String[] {"File"};
-	
-	public SongContainer() throws InstantiationException,	IllegalAccessException {
-		super(Song.class);
+	public Song( MPDSong song ) {
+		this.song = song;
 	}
+
+	public MPDSong getSong() {
+		return song;
+	}
+
+	@Override
+	public String toString() {
+		return song.getFile();
+	}
+
 }

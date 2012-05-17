@@ -23,86 +23,69 @@ import org.bff.javampd.MPD;
 import org.bff.javampd.MPDDatabase;
 import org.bff.javampd.MPDPlayer;
 import org.bff.javampd.MPDPlaylist;
+import org.bff.javampd.events.TrackPositionChangeEvent;
+import org.bff.javampd.events.TrackPositionChangeListener;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDDatabaseException;
 import org.bff.javampd.exception.MPDPlayerException;
+import org.bff.javampd.monitor.MPDStandAloneMonitor;
 import org.bff.javampd.objects.MPDSong;
-import pt.yellowduck.ramboia.frontend.Song;
+import pt.yellowduck.ramboia.backend.model.Song;
 
 public class Server {
+
+	private static final int DEFAULT_PORT = 6600;
 
 	private MPD mpd;
 	private MPDPlayer player;
 	private MPDDatabase database;
 	private MPDPlaylist playlist;
 
-	public Server(){
-		try {
-			mpd = new MPD("172.19.232.41", 6600);
-			player = mpd.getMPDPlayer();
-			playlist = mpd.getMPDPlaylist();
-			database = mpd.getMPDDatabase();
-		} catch(MPDConnectionException e) {
-			System.out.println("Error Connecting:"+e.getMessage());
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		}
+	public Server( String host ) throws MPDConnectionException, UnknownHostException {
+		this( host, DEFAULT_PORT );
+	}
+	
+	public Server( String host, int port ) throws MPDConnectionException, UnknownHostException {
+		mpd = new MPD( host, port );
+		player = mpd.getMPDPlayer();
+		playlist = mpd.getMPDPlaylist();
+		database = mpd.getMPDDatabase();
+
+		MPDStandAloneMonitor monitor = new MPDStandAloneMonitor( mpd );
+		monitor.addTrackPositionChangeListener( new TrackPositionChangeListener() {
+			@Override
+			public void trackPositionChanged( TrackPositionChangeEvent trackPositionChangeEvent ) {
+				System.out.println( "Track Position Changed : " + trackPositionChangeEvent.getElapsedTime() );
+			}
+		});
+		Thread threadMonitor = new Thread( monitor );
+		threadMonitor.setName( "StandAlone Monitor" );
+		threadMonitor.start();
 	}
 
-	public Song getCurrentSong(){
-		MPDSong song = null;
-		try {
-			song = player.getCurrentSong();
-		} catch (MPDPlayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MPDConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public Song getCurrentSong() throws MPDConnectionException, MPDPlayerException {
+		Song result = null;
+		MPDSong currentSong = player.getCurrentSong();
+		if ( currentSong != null ) {
+			result = new Song( currentSong );
 		}
-		if(song != null){
-			Song current = new Song();
-			current.setFilename(song.getName());
-			return current;
-		}
-		else{
-			return null;
-		}
+		return result;
 	}
 
-	public Collection<MPDSong> getAllSongs(){
-		try {
-			return database.listAllSongs();
-		} catch (MPDDatabaseException e) {
-			e.printStackTrace();
-		} catch (MPDConnectionException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public Collection<MPDSong> listAllSongs() throws MPDConnectionException, MPDDatabaseException {
+		return database.listAllSongs();
 	}
 
-	public void play(){
-		try {
-			player.play();
-		} catch (MPDPlayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MPDConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void play() throws MPDPlayerException, MPDConnectionException {
+		player.play();
 	}
 
-	public void stop(){
-		try {
-			player.stop();
-		} catch (MPDPlayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MPDConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void play( MPDSong song ) throws MPDConnectionException, MPDPlayerException {
+		player.playId( song );
 	}
+
+	public void stop() throws MPDConnectionException, MPDPlayerException {
+		player.stop();
+	}
+
 }
