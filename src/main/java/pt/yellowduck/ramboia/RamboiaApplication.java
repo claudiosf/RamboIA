@@ -17,9 +17,15 @@
 package pt.yellowduck.ramboia;
 
 import com.vaadin.Application;
+import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+
+import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.Properties;
+
 import org.bff.javampd.exception.MPDConnectionException;
 import pt.yellowduck.ramboia.backend.Server;
 import pt.yellowduck.ramboia.frontend.library.LibraryController;
@@ -41,11 +47,12 @@ public class RamboiaApplication extends Application {
 		setTheme( "runo" );
 
 		try {
-			String mpdUrl = System.getProperty("mpdUrl");
-			this.server = new Server( mpdUrl );
+			this.server = new Server("192.168.1.7");
 		} catch ( MPDConnectionException e ) {
 			e.printStackTrace();
 		} catch ( UnknownHostException e ) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
@@ -57,12 +64,12 @@ public class RamboiaApplication extends Application {
 
 	private void buildMainLayout() {
 		setMainWindow( new Window( "RamboIA" ) );
-
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSizeFull();
-		layout.addComponent( playerPresenter.getView() );
+		AbstractComponent pp = playerPresenter.getView();
+		layout.addComponent( pp );
 		layout.addComponent( libraryPresenter.getView() );
-
+		layout.setComponentAlignment(pp, Alignment.TOP_CENTER);
 		getMainWindow().setContent( layout );
 	}
 
