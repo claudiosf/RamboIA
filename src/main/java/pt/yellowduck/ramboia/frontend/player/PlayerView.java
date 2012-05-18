@@ -1,6 +1,8 @@
 package pt.yellowduck.ramboia.frontend.player;
 
+import java.util.concurrent.TimeUnit;
 import pt.yellowduck.ramboia.backend.model.Song;
+import pt.yellowduck.ramboia.frontend.Utils;
 import pt.yellowduck.ramboia.frontend.player.PlayerInterface;
 
 import com.vaadin.ui.Alignment;
@@ -108,11 +110,11 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 
 	@Override
 	public void updateTrackPosition( Song song, long elapsedTime ) {
-		if(song != null){
+		if(song != null) {
 			double lenght = (double)song.getSong().getLength();
 			indicator.setValue(new Float(elapsedTime / lenght));
 			labelMusic.setValue(song.getArtist() + " - " + song.getTitle());
-			labelDuration.setValue(song.getSong().getLength() + " / " + elapsedTime);
+			labelDuration.setValue( Utils.formatTime( song.getSong().getLength(), TimeUnit.SECONDS ) + " / " + Utils.formatTime( elapsedTime, TimeUnit.SECONDS ) );
 		}
 	}
 }
