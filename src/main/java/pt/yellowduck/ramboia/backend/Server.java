@@ -40,6 +40,7 @@ import pt.yellowduck.ramboia.backend.model.Song;
 import pt.yellowduck.ramboia.backend.monitor.Monitor;
 import pt.yellowduck.ramboia.backend.monitor.MonitorsHolder;
 
+
 public class Server {
 
 	private static final int DEFAULT_PORT = 6600;
@@ -50,7 +51,8 @@ public class Server {
 	private MPDPlaylist playlist;
 
 	private Monitor monitorHolder = null;
-
+	private MPDStandAloneMonitor monitor = null;
+	
 	private final List< PlayerStateListener > playerListeners = new LinkedList< PlayerStateListener >();
 
 
@@ -64,7 +66,7 @@ public class Server {
 		playlist = mpd.getMPDPlaylist();
 		database = mpd.getMPDDatabase();
 
-		MPDStandAloneMonitor monitor = new MPDStandAloneMonitor( mpd, 5 );
+		monitor = new MPDStandAloneMonitor( mpd, 1 );
 		monitor.addTrackPositionChangeListener( new TrackPositionChangeListener() {
 			@Override
 			public void trackPositionChanged( TrackPositionChangeEvent trackPositionChangeEvent ) {
@@ -77,7 +79,7 @@ public class Server {
 				firePlayerStateChanged( playerBasicChangeEvent.getId() );
 			}
 		});
-
+		
 		monitorHolder = new Monitor( monitor );
 		monitorHolder.start();
 		MonitorsHolder.getInstance().addMonitor( monitorHolder );

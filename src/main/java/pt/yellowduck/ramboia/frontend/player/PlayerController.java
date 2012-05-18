@@ -1,11 +1,13 @@
 package pt.yellowduck.ramboia.frontend.player;
 
-import com.vaadin.ui.AbstractComponent;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDPlayerException;
+
 import pt.yellowduck.ramboia.RamboiaApplication;
 import pt.yellowduck.ramboia.backend.PlayerStateAdapter;
 import pt.yellowduck.ramboia.backend.model.Song;
+
+import com.vaadin.ui.AbstractComponent;
 
 /**
  * User: laught

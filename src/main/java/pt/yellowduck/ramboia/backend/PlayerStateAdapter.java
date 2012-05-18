@@ -1,6 +1,8 @@
 package pt.yellowduck.ramboia.backend;
 
-import pt.yellowduck.ramboia.backend.PlayerStateListener;
+import org.bff.javampd.events.PlayerBasicChangeEvent;
+import org.bff.javampd.events.PlayerBasicChangeListener;
+
 import pt.yellowduck.ramboia.backend.model.Song;
 
 /**
