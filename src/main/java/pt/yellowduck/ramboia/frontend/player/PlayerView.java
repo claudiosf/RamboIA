@@ -1,13 +1,16 @@
 package pt.yellowduck.ramboia.frontend.player;
 
+import pt.yellowduck.ramboia.backend.model.Song;
+import pt.yellowduck.ramboia.frontend.player.PlayerInterface;
+
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.Slider;
 import com.vaadin.ui.VerticalLayout;
-import pt.yellowduck.ramboia.backend.model.Song;
 
 /**
  * User: laught
@@ -20,10 +23,12 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 	private final Button buttonStop = new Button( "Stop" );
 	private final Button buttonPrevious = new Button( "Previous" );
 	private final Button buttonNext = new Button( "Next" );
-	private final Slider slider = new Slider(1, 100);
 	private final Label labelMusic = new Label( "ARTIST - MUSIC" );
 	private final Label labelDuration = new Label( "Duration: 00:00" );
 	private Panel panel = new Panel("RamboIA Music Machine");
+	private final ProgressIndicator indicator = new ProgressIndicator(new Float(0.0));
+
+
 
 	public PlayerView() {
 		setupComponents();
@@ -32,10 +37,9 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 	}
 
 	private void setupComponents() {
-		slider.setSizeFull();
-		slider.setImmediate( true );
-		slider.setMin( 0 );
-		slider.setOrientation( Slider.ORIENTATION_HORIZONTAL );
+		indicator.setPollingInterval(1000);
+		indicator.setIndeterminate(false);
+		indicator.setSizeFull();
 	}
 	private void setupListeners() {
 		buttonPlay.addListener( new Button.ClickListener() {
@@ -76,12 +80,7 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 	}
 
 	private void setupLayout() {
-//		setSizeFull();
-//		setWidth(800, Sizeable.UNITS_PIXELS);
-//		setHeight(200, Sizeable.UNITS_PIXELS);
-
 		HorizontalLayout horizontal = new HorizontalLayout();
-//		horizontal.setSizeFull();
 		horizontal.setSpacing(false);
 		horizontal.addComponent(buttonPrevious);
 		horizontal.addComponent(buttonStop);
@@ -92,11 +91,10 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 		horizontal.setComponentAlignment(buttonPlay, Alignment.TOP_CENTER);
 		horizontal.setComponentAlignment(buttonNext, Alignment.TOP_CENTER);
 
-//		panel.setSizeFull();
 		panel.setWidth("300px");
 		panel.addComponent( labelMusic );
 		panel.addComponent( labelDuration );
-		panel.addComponent( slider );
+		panel.addComponent( indicator );
 		panel.addComponent( horizontal );
 
 		this.addComponent( panel );
@@ -110,11 +108,11 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 
 	@Override
 	public void updateTrackPosition( Song song, long elapsedTime ) {
-		try {
-			slider.setMax( song == null ? 0d : (double)song.getSong().getLength() );
-			slider.setValue( (double) elapsedTime, true );
-		} catch ( Slider.ValueOutOfBoundsException e ) {
-			e.printStackTrace();
+		if(song != null){
+			double lenght = (double)song.getSong().getLength();
+			indicator.setValue(new Float(elapsedTime / lenght));
+			labelMusic.setValue(song.getArtist() + " - " + song.getTitle());
+			labelDuration.setValue(song.getSong().getLength() + " / " + elapsedTime);
 		}
 	}
 }

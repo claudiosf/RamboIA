@@ -1,15 +1,18 @@
 package pt.yellowduck.ramboia.frontend.library;
 
-import com.vaadin.ui.AbstractComponent;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDPlayerException;
 import org.bff.javampd.exception.MPDPlaylistException;
 import org.bff.javampd.objects.MPDSong;
+
 import pt.yellowduck.ramboia.RamboiaApplication;
 import pt.yellowduck.ramboia.backend.model.Song;
+
+import com.vaadin.ui.AbstractComponent;
 
 /**
  * User: laught

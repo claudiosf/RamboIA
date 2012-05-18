@@ -63,7 +63,7 @@ public class Server {
 		playlist = mpd.getMPDPlaylist();
 		database = mpd.getMPDDatabase();
 
-		monitor = new MPDStandAloneMonitor( mpd, 5 );
+		monitor = new MPDStandAloneMonitor( mpd, 1 );
 		monitor.addTrackPositionChangeListener( new TrackPositionChangeListener() {
 			@Override
 			public void trackPositionChanged( TrackPositionChangeEvent trackPositionChangeEvent ) {
