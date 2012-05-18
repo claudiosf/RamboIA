@@ -37,6 +37,8 @@ import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.monitor.MPDStandAloneMonitor;
 import org.bff.javampd.objects.MPDSong;
 import pt.yellowduck.ramboia.backend.model.Song;
+import pt.yellowduck.ramboia.backend.monitor.Monitor;
+import pt.yellowduck.ramboia.backend.monitor.MonitorsHolder;
 
 public class Server {
 
@@ -47,8 +49,7 @@ public class Server {
 	private MPDDatabase database;
 	private MPDPlaylist playlist;
 
-	private Thread threadMonitor = null;
-	private MPDStandAloneMonitor monitor = null;
+	private Monitor monitorHolder = null;
 
 	private final List< PlayerStateListener > playerListeners = new LinkedList< PlayerStateListener >();
 
@@ -63,7 +64,7 @@ public class Server {
 		playlist = mpd.getMPDPlaylist();
 		database = mpd.getMPDDatabase();
 
-		monitor = new MPDStandAloneMonitor( mpd, 5 );
+		MPDStandAloneMonitor monitor = new MPDStandAloneMonitor( mpd, 5 );
 		monitor.addTrackPositionChangeListener( new TrackPositionChangeListener() {
 			@Override
 			public void trackPositionChanged( TrackPositionChangeEvent trackPositionChangeEvent ) {
@@ -76,12 +77,10 @@ public class Server {
 				firePlayerStateChanged( playerBasicChangeEvent.getId() );
 			}
 		});
-		/**
-		 * FIXME memory leak ! this thread has to be stopped on context(applications) destroyed(s).
-		 */
-		threadMonitor = new Thread( monitor );
-		threadMonitor.setName( "MPD StandAlone Monitor" );
-		threadMonitor.start();
+
+		monitorHolder = new Monitor( monitor );
+		monitorHolder.start();
+		MonitorsHolder.getInstance().addMonitor( monitorHolder );
 	}
 
 	public void close() throws MPDConnectionException, MPDResponseException {
@@ -91,9 +90,7 @@ public class Server {
 		playlist = null;
 		database = null;
 
-		monitor.stop();
-		threadMonitor.interrupt();
-		threadMonitor = null;
+		MonitorsHolder.getInstance().destroyMonitor( monitorHolder );
 
 		mpd.close();
 	}
