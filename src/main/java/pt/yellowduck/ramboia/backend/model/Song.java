@@ -37,4 +37,20 @@ public class Song {
 		return song.getFile();
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Song song1 = (Song) o;
+
+		if (song != null ? !song.equals(song1.song) : song1.song != null) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return song != null ? song.hashCode() : 0;
+	}
 }

@@ -25,6 +25,7 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 	}
 
 	private void setupComponents() {
+		treeLibrary.setImmediate( true );
 		treeLibrary.addListener( new ItemClickEvent.ItemClickListener() {
 			@Override
 			public void itemClick( ItemClickEvent itemClickEvent ) {
@@ -53,6 +54,7 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 		if ( songs != null ) {
 			for ( Song song : songs ) {
 				treeLibrary.addItem( song );
+				treeLibrary.setChildrenAllowed( song, false );
 			}
 		}
 	}
