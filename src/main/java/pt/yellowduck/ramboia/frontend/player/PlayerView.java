@@ -25,8 +25,6 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 	private final Slider slider = new Slider(1, 100);
 	private Panel panel = new Panel("RamboIA Music Machine");
 
-	private final Slider sliderTime = new Slider( "Time Elapsed" );
-
 	public PlayerView() {
 		setupComponents();
 		setupListeners();
@@ -34,10 +32,10 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 	}
 
 	private void setupComponents() {
-		sliderTime.setSizeFull();
-		sliderTime.setImmediate( true );
-		sliderTime.setMin( 0 );
-		sliderTime.setOrientation( Slider.ORIENTATION_HORIZONTAL );
+		slider.setSizeFull();
+		slider.setImmediate( true );
+		slider.setMin( 0 );
+		slider.setOrientation( Slider.ORIENTATION_HORIZONTAL );
 	}
 	private void setupListeners() {
 		buttonPlay.addListener( new Button.ClickListener() {
@@ -64,19 +62,13 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 		
 		setWidth(800, Sizeable.UNITS_PIXELS);
 		setHeight(200, Sizeable.UNITS_PIXELS);
-		
-		panel.setWidth("300px");
 
-		panel.addComponent(
-		    new Label("ARTISTA - MUSICA"));
-		panel.addComponent(
-			    new Label("Duração 00:00"));
 		panel.setSizeFull();
-		addComponent(panel);
-		
-		slider.setOrientation(Slider.ORIENTATION_HORIZONTAL);
-		slider.setSizeFull();
+		panel.setWidth("300px");
+		panel.addComponent( new Label("ARTISTA - MUSICA"));
+		panel.addComponent( new Label("Duração 00:00"));
 		panel.addComponent(slider);
+		addComponent(panel);
 		
 		HorizontalLayout horizontal = new HorizontalLayout();
 		horizontal.setSizeFull();
@@ -100,9 +92,9 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 
 	@Override
 	public void updateTrackPosition( Song song, long elapsedTime ) {
-		sliderTime.setMax( song == null ? 0 : song.getSong().getLength() );
+		slider.setMax( song == null ? 0 : song.getSong().getLength() );
 		try {
-			sliderTime.setValue( elapsedTime );
+			slider.setValue( elapsedTime );
 		} catch ( Slider.ValueOutOfBoundsException e ) {
 			e.printStackTrace();
 		}
