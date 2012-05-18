@@ -70,4 +70,29 @@ public class PlayerController implements PlayerInterface.PlayerPresenter {
 		}
 	}
 
+	@Override
+	public void playNext() {
+		if ( application != null ) {
+			try {
+				application.getServer().next();
+			} catch ( MPDConnectionException e ) {
+				e.printStackTrace();
+			} catch ( MPDPlayerException e ) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void playPrevious() {
+		if ( application != null ) {
+			try {
+				application.getServer().previous();
+			} catch ( MPDConnectionException e ) {
+				e.printStackTrace();
+			} catch ( MPDPlayerException e ) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

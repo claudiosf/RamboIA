@@ -40,8 +40,6 @@ import pt.yellowduck.ramboia.backend.model.Song;
 
 public class Server {
 
-	private static final boolean DEBUG = true;
-	
 	private static final int DEFAULT_PORT = 6600;
 
 	private MPD mpd;
@@ -65,7 +63,7 @@ public class Server {
 		playlist = mpd.getMPDPlaylist();
 		database = mpd.getMPDDatabase();
 
-		monitor = new MPDStandAloneMonitor( mpd );
+		monitor = new MPDStandAloneMonitor( mpd, 5 );
 		monitor.addTrackPositionChangeListener( new TrackPositionChangeListener() {
 			@Override
 			public void trackPositionChanged( TrackPositionChangeEvent trackPositionChangeEvent ) {
@@ -78,8 +76,11 @@ public class Server {
 				firePlayerStateChanged( playerBasicChangeEvent.getId() );
 			}
 		});
+		/**
+		 * FIXME memory leak ! this thread has to be stopped on context(applications) destroyed(s).
+		 */
 		threadMonitor = new Thread( monitor );
-		threadMonitor.setName( "StandAlone Monitor" );
+		threadMonitor.setName( "MPD StandAlone Monitor" );
 		threadMonitor.start();
 	}
 
@@ -112,7 +113,6 @@ public class Server {
 	private void fireTrackPositionChanged( long elapsedTime ) {
 		try {
 			Song currentSong = getCurrentSong();
-			debug( "Server . fireTrackPositionChanged : " + currentSong + " -> " + elapsedTime + "s" );
 			for ( PlayerStateListener listener : playerListeners ) {
 				listener.trackPositionChanged( currentSong, elapsedTime );
 			}
@@ -128,7 +128,6 @@ public class Server {
 			case PlayerBasicChangeEvent.PLAYER_STARTED :
 				try {
 					Song currentSong = getCurrentSong();
-					debug( "Server . firePlayerStateChanged . started : " + currentSong );
 					for ( PlayerStateListener listener : playerListeners ) {
 						listener.playerStarted( currentSong );
 					}
@@ -139,7 +138,6 @@ public class Server {
 				}
 				break;
 			case PlayerBasicChangeEvent.PLAYER_STOPPED :
-				debug( "Server . firePlayerStateChanged . stopped : " );
 				for ( PlayerStateListener listener : playerListeners ) {
 					listener.playerStopped();
 				}
@@ -185,10 +183,12 @@ public class Server {
 	public void stop() throws MPDConnectionException, MPDPlayerException {
 		player.stop();
 	}
+	
+	public void next() throws MPDConnectionException, MPDPlayerException {
+		player.playNext();
+	}
 
-	private void debug( String msg ) {
-		if ( DEBUG ) {
-			System.out.println( msg );
-		}
+	public void previous() throws MPDConnectionException, MPDPlayerException {
+		player.playPrev();
 	}
 }

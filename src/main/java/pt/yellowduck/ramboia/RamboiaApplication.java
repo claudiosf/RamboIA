@@ -53,8 +53,6 @@ public class RamboiaApplication extends Application {
 			e.printStackTrace();
 		} catch ( UnknownHostException e ) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
 		this.playerPresenter = new PlayerController( this );
@@ -66,7 +64,6 @@ public class RamboiaApplication extends Application {
 
 	@Override
 	public void close() {
-		System.out.println( "Session invalidated. Cleaning resources ...");
 		try {
 			getServer().close();
 		} catch ( MPDConnectionException e ) {
@@ -77,14 +74,16 @@ public class RamboiaApplication extends Application {
 	}
 
 	private void buildMainLayout() {
-		setMainWindow( new Window( "RamboIA" ) );
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSizeFull();
 		AbstractComponent pp = playerPresenter.getView();
 		layout.addComponent( pp );
 		layout.addComponent( libraryPresenter.getView() );
 		layout.setComponentAlignment(pp, Alignment.TOP_CENTER);
-		getMainWindow().setContent( layout );
+
+		Window window = new Window( "RamboIA" );
+		window.setContent( layout );
+		setMainWindow( window );
 	}
 
 	public Server getServer() {

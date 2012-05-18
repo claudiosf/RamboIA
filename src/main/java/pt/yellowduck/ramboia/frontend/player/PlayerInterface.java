@@ -21,6 +21,10 @@ public interface PlayerInterface {
 
 		public void stop();
 
+		public void playNext();
+
+		public void playPrevious();
+
 	}
 
 }
