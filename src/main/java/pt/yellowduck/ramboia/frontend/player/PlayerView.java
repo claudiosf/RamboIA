@@ -3,8 +3,9 @@ package pt.yellowduck.ramboia.frontend.player;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Slider;
 import com.vaadin.ui.VerticalLayout;
@@ -17,13 +18,11 @@ import pt.yellowduck.ramboia.backend.model.Song;
 public class PlayerView extends VerticalLayout implements PlayerInterface {
 
 	private PlayerPresenter presenter = null;
-
 	private final Button buttonPlay = new Button( "Play" );
-	
 	private final Button buttonStop = new Button( "Stop" );
-	
+	private final Button buttonPrevious = new Button( "Previous" );
+	private final Button buttonNext = new Button( "Next" );
 	private final Slider slider = new Slider(1, 100);
-	
 	private Panel panel = new Panel("RamboIA Music Machine");
 
 	private final Slider sliderTime = new Slider( "Time Elapsed" );
@@ -63,31 +62,35 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 	private void setupLayout() {
 		setSizeFull();
 		
-		setWidth(600, Sizeable.UNITS_PIXELS);
-		setHeight(300, Sizeable.UNITS_PIXELS);
+		setWidth(800, Sizeable.UNITS_PIXELS);
+		setHeight(200, Sizeable.UNITS_PIXELS);
 		
 		panel.setWidth("300px");
 
 		panel.addComponent(
 		    new Label("ARTISTA - MUSICA"));
+		panel.addComponent(
+			    new Label("Duração 00:00"));
 		panel.setSizeFull();
 		addComponent(panel);
 		
 		slider.setOrientation(Slider.ORIENTATION_HORIZONTAL);
 		slider.setSizeFull();
-		addComponent(slider);
+		panel.addComponent(slider);
 		
-		GridLayout grid = new GridLayout(4, 1);
-		grid.setSizeFull();
-		grid.addComponent(buttonPlay, 2, 0);
-		grid.addComponent(buttonStop, 1, 0);
-		grid.setComponentAlignment(buttonPlay, Alignment.TOP_CENTER);
-		grid.setComponentAlignment(buttonStop, Alignment.TOP_CENTER);
+		HorizontalLayout horizontal = new HorizontalLayout();
+		horizontal.setSizeFull();
+		horizontal.setSpacing(false);
+		horizontal.addComponent(buttonPrevious);
+		horizontal.addComponent(buttonStop);
+		horizontal.addComponent(buttonPlay);
+		horizontal.addComponent(buttonNext);
+		horizontal.setComponentAlignment(buttonPrevious, Alignment.TOP_CENTER);
+		horizontal.setComponentAlignment(buttonStop, Alignment.TOP_CENTER);
+		horizontal.setComponentAlignment(buttonPlay, Alignment.TOP_CENTER);
+		horizontal.setComponentAlignment(buttonNext, Alignment.TOP_CENTER);
 		
-		addComponent(grid);
-		
-		setComponentAlignment(slider, Alignment.BOTTOM_CENTER);
-		setComponentAlignment(grid, Alignment.TOP_CENTER);
+		panel.addComponent(horizontal);
 	}
 
 	@Override
