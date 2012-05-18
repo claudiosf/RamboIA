@@ -1,6 +1,7 @@
 package pt.yellowduck.ramboia.frontend.library;
 
 import com.vaadin.event.ItemClickEvent;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import java.util.List;
@@ -14,7 +15,9 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 
 	private LibraryPresenter presenter = null;
 
-	private final Tree treeLibrary = new Tree( "Music Library" );
+	private final Panel panelScrollable = new Panel( "Music Library");
+
+	private final Tree treeLibrary = new Tree();
 
 	public LibraryView() {
 		setupComponents();
@@ -36,7 +39,8 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 	}
 	
 	private void setupLayout() {
-		addComponent( treeLibrary );
+		panelScrollable.addComponent( treeLibrary );
+		addComponent(panelScrollable);
 	}
 
 	@Override
