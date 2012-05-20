@@ -23,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import org.bff.javampd.MPD;
 import org.bff.javampd.MPDDatabase;
+import org.bff.javampd.MPDFile;
 import org.bff.javampd.MPDPlayer;
 import org.bff.javampd.MPDPlaylist;
 import org.bff.javampd.events.PlayerBasicChangeEvent;
@@ -37,6 +38,7 @@ import org.bff.javampd.exception.MPDResponseException;
 import org.bff.javampd.monitor.MPDStandAloneMonitor;
 import org.bff.javampd.objects.MPDSong;
 import pt.yellowduck.ramboia.backend.model.Song;
+import pt.yellowduck.ramboia.backend.model.SongFile;
 import pt.yellowduck.ramboia.backend.monitor.Monitor;
 import pt.yellowduck.ramboia.backend.monitor.MonitorsHolder;
 
@@ -154,6 +156,30 @@ public class Server {
 		}
 	}
 
+
+	public List< SongFile > listLibrary() throws MPDConnectionException, MPDDatabaseException {
+		return processRoots( database, database.listRootDirectory() );
+	}
+
+	private List<SongFile> processRoots( MPDDatabase db, Collection< MPDFile > roots ) throws MPDConnectionException, MPDDatabaseException {
+		List< SongFile > result = new LinkedList<SongFile>();
+		for ( MPDFile root : roots ) {
+			if ( root.isDirectory() ) {
+				SongFile dir = new SongFile( root );
+				List< SongFile > childrens = processRoots( db, db.listDirectory( root ) );
+				dir.setChildrens( childrens );
+				result.add( dir );
+			} else {
+				result.add( new SongFile( root ) );
+			}
+		}
+		return result;
+	}
+
+	public Collection<MPDSong> listAllSongs() throws MPDConnectionException, MPDDatabaseException {
+		return database.listAllSongs();
+	}
+
 	public Song getCurrentSong() throws MPDConnectionException, MPDPlayerException {
 		Song result = null;
 		MPDSong currentSong = player.getCurrentSong();
@@ -163,15 +189,12 @@ public class Server {
 		return result;
 	}
 
-	public Collection<MPDSong> listAllSongs() throws MPDConnectionException, MPDDatabaseException {
-		return database.listAllSongs();
-	}
-
 	public void play() throws MPDPlayerException, MPDConnectionException {
 		player.play();
 	}
 
 	public void play( MPDSong song ) throws MPDConnectionException, MPDPlayerException, MPDPlaylistException {
+		// FIXME this does not work - the requested song is added to the playlist, but its not the one playing
 		List< MPDSong > playlistSongs = playlist.getSongList();
 		if ( playlistSongs == null || ! playlistSongs.contains( song ) ) {
 			playlist.addSong( song );
@@ -179,6 +202,25 @@ public class Server {
 		player.playId( song );
 	}
 
+	public void play( MPDFile file ) throws MPDConnectionException, MPDDatabaseException, MPDPlaylistException, MPDPlayerException {
+		Song song = findSong( file );
+		if ( song != null ) {
+			play( song.getSong() );
+		}
+	}
+
+	private Song findSong( MPDFile file ) throws MPDConnectionException, MPDDatabaseException {
+		Song result = null;
+		Collection< MPDSong > found = database.find( MPDDatabase.ScopeType.FILENAME, file.getPath() );
+		if ( found != null ) {
+			for ( MPDSong song : found ) {
+				result = new Song( song );
+				break;
+			}
+		}
+		return result;
+	}
+	
 	public void stop() throws MPDConnectionException, MPDPlayerException {
 		player.stop();
 	}

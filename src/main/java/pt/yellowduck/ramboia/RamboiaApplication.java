@@ -48,7 +48,7 @@ public class RamboiaApplication extends Application {
 		setTheme( "runo" );
 
 		try {
-			this.server = new Server("172.19.232.41");
+			this.server = new Server("192.168.1.3");
 		} catch ( MPDConnectionException e ) {
 			e.printStackTrace();
 		} catch ( UnknownHostException e ) {

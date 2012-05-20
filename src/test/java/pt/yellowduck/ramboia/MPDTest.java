@@ -1,11 +1,14 @@
 package pt.yellowduck.ramboia;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import org.bff.javampd.MPD;
 import org.bff.javampd.MPDDatabase;
 import org.bff.javampd.MPDFile;
 import org.bff.javampd.MPDPlayer;
 import org.bff.javampd.objects.MPDSong;
+import pt.yellowduck.ramboia.backend.model.SongFile;
 
 /**
  * User: dneves
@@ -14,21 +17,27 @@ import org.bff.javampd.objects.MPDSong;
 public class MPDTest {
 	
 	public static void main( String ... args ) throws Exception {
-		MPD mpd = new MPD( "172.19.232.41" );
+		MPD mpd = new MPD( "127.0.0.1" );
 		
 		MPDDatabase db = mpd.getMPDDatabase();
 
 		System.out.println( "------------------------------------------------------------------");
-
 		processFiles( db, db.listRootDirectory(), "" );
-		
 		System.out.println( "------------------------------------------------------------------");
-
-		Collection< MPDSong > found = db.find( MPDDatabase.ScopeType.FILENAME, "You Can't Win, Charlie Brown/Chromatic/01 Over The Sun _ Under The Water.mp3" );
-		for ( MPDSong song : found ) {
-			System.out.println( " -> " + song.getFile() );
+		
+		List< SongFile > files = processRoots( db, db.listRootDirectory() );
+		System.out.println( "Files : " + files.size() );
+		for ( SongFile file : files ) {
+			System.out.println( file );
+			if ( file.isDirectory() ) {
+				List< SongFile > folderFiles = file.getChildrens();
+				if ( folderFiles != null ) {
+					for ( SongFile f : folderFiles ) {
+						System.out.println( " -> " + f );
+					}
+				}
+			}
 		}
-
 	}
 	
 	private static void processFiles( MPDDatabase db, Collection< MPDFile > files, String pad ) throws Exception {
@@ -41,6 +50,21 @@ public class MPDTest {
 				System.out.println( pad + "> " + file.getPath() );
 			}
 		}
+	}
+
+	private static List< SongFile > processRoots( MPDDatabase db, Collection< MPDFile > roots ) throws Exception {
+		List< SongFile > result = new LinkedList<SongFile>();
+		for ( MPDFile root : roots ) {
+			if ( root.isDirectory() ) {
+				SongFile dir = new SongFile( root );
+				List< SongFile > childrens = processRoots( db, db.listDirectory( root ) );
+				dir.setChildrens( childrens );
+				result.add( dir );
+			} else {
+				result.add( new SongFile( root ) );
+			}
+		}
+		return result;
 	}
 	
 }
