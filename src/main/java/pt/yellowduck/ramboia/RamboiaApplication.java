@@ -19,6 +19,7 @@ package pt.yellowduck.ramboia;
 import com.vaadin.Application;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -33,6 +34,8 @@ import pt.yellowduck.ramboia.frontend.library.LibraryController;
 import pt.yellowduck.ramboia.frontend.library.LibraryInterface;
 import pt.yellowduck.ramboia.frontend.player.PlayerController;
 import pt.yellowduck.ramboia.frontend.player.PlayerInterface;
+import pt.yellowduck.ramboia.frontend.playlist.PlaylistController;
+import pt.yellowduck.ramboia.frontend.playlist.PlaylistInterface;
 
 
 public class RamboiaApplication extends Application {
@@ -42,13 +45,15 @@ public class RamboiaApplication extends Application {
 	private PlayerInterface.PlayerPresenter playerPresenter;
 
 	private LibraryInterface.LibraryPresenter libraryPresenter;
+	
+	private PlaylistInterface.PlaylistPresenter playlistPresenter;
 
 	@Override
 	public void init() {
 		setTheme( "runo" );
 
 		try {
-			this.server = new Server("172.19.232.41");
+			this.server = new Server("192.168.1.7");
 		} catch ( MPDConnectionException e ) {
 			e.printStackTrace();
 		} catch ( UnknownHostException e ) {
@@ -57,7 +62,8 @@ public class RamboiaApplication extends Application {
 
 		this.playerPresenter = new PlayerController( this );
 		this.libraryPresenter = new LibraryController( this );
-
+		this.playlistPresenter = new PlaylistController(this);
+		
 		buildMainLayout();
 	}
 
@@ -78,7 +84,11 @@ public class RamboiaApplication extends Application {
 		layout.setSizeFull();
 		AbstractComponent pp = playerPresenter.getView();
 		layout.addComponent( pp );
-		layout.addComponent( libraryPresenter.getView() );
+		HorizontalLayout hLayout = new HorizontalLayout();
+		hLayout.addComponent( libraryPresenter.getView() );
+		hLayout.addComponent( playlistPresenter.getView() );
+		hLayout.setSizeUndefined();
+		layout.addComponent(hLayout);
 		layout.setComponentAlignment(pp, Alignment.TOP_CENTER);
 
 		Window window = new Window( "RamboIA" );

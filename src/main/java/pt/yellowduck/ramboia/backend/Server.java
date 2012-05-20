@@ -190,4 +190,8 @@ public class Server {
 	public void previous() throws MPDConnectionException, MPDPlayerException {
 		player.playPrev();
 	}
+	
+	public List<MPDSong> listAllPlaylistSongs() throws MPDConnectionException, MPDDatabaseException {
+		return playlist.getSongList();
+	}
 }
