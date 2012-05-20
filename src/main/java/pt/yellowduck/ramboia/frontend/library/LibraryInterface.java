@@ -2,7 +2,7 @@ package pt.yellowduck.ramboia.frontend.library;
 
 import com.vaadin.ui.AbstractComponent;
 import java.util.List;
-import pt.yellowduck.ramboia.backend.model.Song;
+import pt.yellowduck.ramboia.backend.model.SongFile;
 
 /**
  * User: laught
@@ -12,17 +12,15 @@ public interface LibraryInterface {
 
 	public void setPresenter( LibraryPresenter presenter );
 
-	public void fillLibrary( List< Song > songs );
+	public void fillLibrary( List<SongFile> songs );
 
-	public Song getSelectedSong();
+	public SongFile getSelectedSong();
 
 	public interface LibraryPresenter {
 		
 		public AbstractComponent getView();
 
-		public Song getSelectedSong();
-
-		public void play( Song song );
+		public void play( SongFile song );
 	}
 	
 }

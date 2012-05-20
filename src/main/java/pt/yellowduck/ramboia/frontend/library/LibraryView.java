@@ -5,7 +5,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.VerticalLayout;
 import java.util.List;
-import pt.yellowduck.ramboia.backend.model.Song;
+import pt.yellowduck.ramboia.backend.model.SongFile;
 
 /**
  * User: laught
@@ -31,8 +31,7 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 			public void itemClick( ItemClickEvent itemClickEvent ) {
 				if ( itemClickEvent.isDoubleClick() ) {
 					if ( presenter != null ) {
-						Song selectedSong = getSelectedSong();
-						presenter.play( selectedSong );
+						presenter.play( getSelectedSong() );
 					}
 				}
 			}
@@ -40,6 +39,11 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 	}
 	
 	private void setupLayout() {
+		treeLibrary.setSizeUndefined();
+
+//		panelScrollable.setWidth( "400px" );
+		panelScrollable.setHeight( "300px" );
+		panelScrollable.getContent().setSizeUndefined();
 		panelScrollable.addComponent( treeLibrary );
 		addComponent(panelScrollable);
 	}
@@ -50,21 +54,27 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 	}
 
 	@Override
-	public void fillLibrary( List< Song > songs ) {
-		if ( songs != null ) {
-			for ( Song song : songs ) {
-				treeLibrary.addItem( song );
-				treeLibrary.setChildrenAllowed( song, false );
-			}
+	public SongFile getSelectedSong() {
+		Object value = treeLibrary.getValue();
+		if ( value instanceof SongFile ) {
+			return ( SongFile ) value;
 		}
+		return null;
 	}
 
 	@Override
-	public Song getSelectedSong() {
-		Object value = treeLibrary.getValue();
-		if ( value instanceof Song ) {
-			return ( Song ) value;
+	public void fillLibrary( List<SongFile> songFiles ) {
+		fillLibrary( songFiles, null );
+	}
+
+	public void fillLibrary( List< SongFile > files, SongFile parent ) {
+		if ( files != null ) {
+			for ( SongFile file : files ) {
+				treeLibrary.addItem( file );
+				treeLibrary.setChildrenAllowed( file, file.isDirectory() );
+				treeLibrary.setParent( file, parent );
+				fillLibrary( file.getChildrens(), file );
+			}
 		}
-		return null;
 	}
 }
