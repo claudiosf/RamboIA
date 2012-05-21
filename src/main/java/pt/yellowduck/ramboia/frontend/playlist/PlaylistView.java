@@ -1,14 +1,9 @@
 package pt.yellowduck.ramboia.frontend.playlist;
 
-import org.bff.javampd.events.PlaylistBasicChangeEvent;
-import org.bff.javampd.events.PlaylistBasicChangeListener;
-
-import pt.yellowduck.ramboia.backend.model.Song;
-import pt.yellowduck.ramboia.backend.model.SongContainer;
-
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
+import pt.yellowduck.ramboia.backend.model.Song;
 
 public class PlaylistView extends Panel implements PlaylistInterface {
 

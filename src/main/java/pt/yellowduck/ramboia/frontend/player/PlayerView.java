@@ -1,18 +1,15 @@
 package pt.yellowduck.ramboia.frontend.player;
 
-import java.util.concurrent.TimeUnit;
-import pt.yellowduck.ramboia.backend.model.Song;
-import pt.yellowduck.ramboia.frontend.Utils;
-import pt.yellowduck.ramboia.frontend.player.PlayerInterface;
-
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.ProgressIndicator;
-import com.vaadin.ui.Slider;
 import com.vaadin.ui.VerticalLayout;
+import java.util.concurrent.TimeUnit;
+import pt.yellowduck.ramboia.backend.model.Song;
+import pt.yellowduck.ramboia.frontend.Utils;
 
 /**
  * User: laught
@@ -39,8 +36,8 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 	}
 
 	private void setupComponents() {
-		indicator.setPollingInterval(1000);
-		indicator.setIndeterminate(false);
+		indicator.setPollingInterval( 1000 );
+		indicator.setIndeterminate( false );
 		indicator.setSizeFull();
 	}
 	private void setupListeners() {
@@ -87,11 +84,11 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 		horizontal.addComponent(buttonPrevious);
 		horizontal.addComponent(buttonStop);
 		horizontal.addComponent(buttonPlay);
-		horizontal.addComponent(buttonNext);
-		horizontal.setComponentAlignment(buttonPrevious, Alignment.TOP_CENTER);
-		horizontal.setComponentAlignment(buttonStop, Alignment.TOP_CENTER);
-		horizontal.setComponentAlignment(buttonPlay, Alignment.TOP_CENTER);
-		horizontal.setComponentAlignment(buttonNext, Alignment.TOP_CENTER);
+		horizontal.addComponent( buttonNext );
+		horizontal.setComponentAlignment( buttonPrevious, Alignment.TOP_CENTER );
+		horizontal.setComponentAlignment( buttonStop, Alignment.TOP_CENTER );
+		horizontal.setComponentAlignment( buttonPlay, Alignment.TOP_CENTER );
+		horizontal.setComponentAlignment( buttonNext, Alignment.TOP_CENTER );
 
 		panel.setWidth("300px");
 		panel.addComponent( labelMusic );
