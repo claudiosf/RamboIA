@@ -9,6 +9,7 @@ import org.bff.javampd.exception.MPDPlayerException;
 import org.bff.javampd.exception.MPDPlaylistException;
 import org.bff.javampd.objects.MPDSong;
 import pt.yellowduck.ramboia.RamboiaApplication;
+import pt.yellowduck.ramboia.backend.RamboIALogger;
 import pt.yellowduck.ramboia.backend.model.Song;
 import pt.yellowduck.ramboia.backend.model.SongContainer;
 
@@ -38,11 +39,11 @@ public class PlaylistController implements PlaylistInterface.PlaylistPresenter{
 			try {
 				application.getServer().play( song.getSong() );
 			} catch ( MPDConnectionException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			} catch ( MPDPlayerException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			} catch ( MPDPlaylistException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			}
 		}
 	}
@@ -57,7 +58,7 @@ public class PlaylistController implements PlaylistInterface.PlaylistPresenter{
 					result.add( new Song( song ) );
 				}
 			} catch ( Exception e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			}
 		}
 		return result;
@@ -70,9 +71,9 @@ public class PlaylistController implements PlaylistInterface.PlaylistPresenter{
 			container = new SongContainer();
 			container.addAll(fetchSongs());
 		} catch (InstantiationException e) {
-			e.printStackTrace();
+			RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 		}
 		return container;
 	}

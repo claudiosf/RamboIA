@@ -8,6 +8,7 @@ import org.bff.javampd.exception.MPDDatabaseException;
 import org.bff.javampd.exception.MPDPlayerException;
 import org.bff.javampd.exception.MPDPlaylistException;
 import pt.yellowduck.ramboia.RamboiaApplication;
+import pt.yellowduck.ramboia.backend.RamboIALogger;
 import pt.yellowduck.ramboia.backend.model.SongFile;
 
 /**
@@ -38,13 +39,13 @@ public class LibraryController implements LibraryInterface.LibraryPresenter{
 			try {
 				application.getServer().play( songfile.getFile() );
 			} catch ( MPDConnectionException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			} catch ( MPDPlayerException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			} catch ( MPDPlaylistException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			} catch ( MPDDatabaseException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			}
 		}
 	}
@@ -54,9 +55,9 @@ public class LibraryController implements LibraryInterface.LibraryPresenter{
 		try {
 			result = application.getServer().listLibrary();
 		} catch ( MPDConnectionException e ) {
-			e.printStackTrace();
+			RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 		} catch ( MPDDatabaseException e ) {
-			e.printStackTrace();
+			RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 		}
 		return result != null ? result : new LinkedList<SongFile>();
 	}

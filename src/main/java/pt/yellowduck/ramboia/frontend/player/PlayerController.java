@@ -1,13 +1,12 @@
 package pt.yellowduck.ramboia.frontend.player;
 
+import com.vaadin.ui.AbstractComponent;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDPlayerException;
-
 import pt.yellowduck.ramboia.RamboiaApplication;
 import pt.yellowduck.ramboia.backend.PlayerStateAdapter;
+import pt.yellowduck.ramboia.backend.RamboIALogger;
 import pt.yellowduck.ramboia.backend.model.Song;
-
-import com.vaadin.ui.AbstractComponent;
 
 /**
  * User: laught
@@ -52,9 +51,9 @@ public class PlayerController implements PlayerInterface.PlayerPresenter {
 			try {
 				application.getServer().play();
 			} catch ( MPDConnectionException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			} catch ( MPDPlayerException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			}
 		}
 	}
@@ -65,9 +64,9 @@ public class PlayerController implements PlayerInterface.PlayerPresenter {
 			try {
 				application.getServer().stop();
 			} catch ( MPDConnectionException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify( getView().getWindow(), "Error", e.getLocalizedMessage() );
 			} catch ( MPDPlayerException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			}
 		}
 	}
@@ -78,9 +77,9 @@ public class PlayerController implements PlayerInterface.PlayerPresenter {
 			try {
 				application.getServer().next();
 			} catch ( MPDConnectionException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			} catch ( MPDPlayerException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			}
 		}
 	}
@@ -91,9 +90,9 @@ public class PlayerController implements PlayerInterface.PlayerPresenter {
 			try {
 				application.getServer().previous();
 			} catch ( MPDConnectionException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			} catch ( MPDPlayerException e ) {
-				e.printStackTrace();
+				RamboIALogger.notify(getView().getWindow(), "Error", e.getLocalizedMessage());
 			}
 		}
 	}

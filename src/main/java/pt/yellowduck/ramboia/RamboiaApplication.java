@@ -29,6 +29,7 @@ import java.util.Properties;
 
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
+import pt.yellowduck.ramboia.backend.RamboIALogger;
 import pt.yellowduck.ramboia.backend.Server;
 import pt.yellowduck.ramboia.frontend.library.LibraryController;
 import pt.yellowduck.ramboia.frontend.library.LibraryInterface;
@@ -53,11 +54,11 @@ public class RamboiaApplication extends Application {
 		setTheme( "runo" );
 
 		try {
-			this.server = new Server("192.168.1.7");
+			this.server = new Server("172.19.232.41");
 		} catch ( MPDConnectionException e ) {
-			e.printStackTrace();
+			RamboIALogger.notify(getMainWindow(), "Error", e.getLocalizedMessage());
 		} catch ( UnknownHostException e ) {
-			e.printStackTrace();
+			RamboIALogger.notify(getMainWindow(), "Error", e.getLocalizedMessage());
 		}
 
 		this.playerPresenter = new PlayerController( this );
