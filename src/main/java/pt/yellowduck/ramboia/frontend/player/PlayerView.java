@@ -27,8 +27,6 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 	private Panel panel = new Panel("RamboIA Music Machine");
 	private final ProgressIndicator indicator = new ProgressIndicator(new Float(0.0));
 
-
-
 	public PlayerView() {
 		setupComponents();
 		setupListeners();
@@ -90,7 +88,7 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 		horizontal.setComponentAlignment( buttonPlay, Alignment.TOP_CENTER );
 		horizontal.setComponentAlignment( buttonNext, Alignment.TOP_CENTER );
 
-		panel.setWidth("300px");
+		panel.setWidth( "300px" );
 		panel.addComponent( labelMusic );
 		panel.addComponent( labelDuration );
 		panel.addComponent( indicator );
@@ -101,7 +99,7 @@ public class PlayerView extends VerticalLayout implements PlayerInterface {
 	}
 
 	@Override
-	public void setPresenter( PlayerPresenter presenter ) {
+	public void setPresenter( PlayerController presenter ) {
 		this.presenter = presenter;
 	}
 

@@ -17,54 +17,52 @@
 package pt.yellowduck.ramboia;
 
 import com.vaadin.Application;
-import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-
-import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.Properties;
-
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
 import pt.yellowduck.ramboia.backend.RamboIALogger;
 import pt.yellowduck.ramboia.backend.Server;
 import pt.yellowduck.ramboia.frontend.library.LibraryController;
-import pt.yellowduck.ramboia.frontend.library.LibraryInterface;
+import pt.yellowduck.ramboia.frontend.library.LibraryView;
 import pt.yellowduck.ramboia.frontend.player.PlayerController;
-import pt.yellowduck.ramboia.frontend.player.PlayerInterface;
+import pt.yellowduck.ramboia.frontend.player.PlayerView;
 import pt.yellowduck.ramboia.frontend.playlist.PlaylistController;
-import pt.yellowduck.ramboia.frontend.playlist.PlaylistInterface;
+import pt.yellowduck.ramboia.frontend.playlist.PlaylistView;
 
 
 public class RamboiaApplication extends Application {
 
 	private Server server;
 
-	private PlayerInterface.PlayerPresenter playerPresenter;
+	private final Window mainWindow = new Window( "RamboIA" );
 
-	private LibraryInterface.LibraryPresenter libraryPresenter;
+	private final PlayerView viewPlayer = new PlayerView();
+
+	private final LibraryView viewLibrary = new LibraryView();
 	
-	private PlaylistInterface.PlaylistPresenter playlistPresenter;
+	private final PlaylistView viewPlaylist = new PlaylistView();
 
 	@Override
 	public void init() {
 		setTheme( "runo" );
+		setMainWindow( mainWindow );
 
 		try {
-			this.server = new Server("172.19.232.41");
+			this.server = new Server("127.0.0.1");
 		} catch ( MPDConnectionException e ) {
 			RamboIALogger.notify(getMainWindow(), "Error", e.getLocalizedMessage());
 		} catch ( UnknownHostException e ) {
 			RamboIALogger.notify(getMainWindow(), "Error", e.getLocalizedMessage());
 		}
 
-		this.playerPresenter = new PlayerController( this );
-		this.libraryPresenter = new LibraryController( this );
-		this.playlistPresenter = new PlaylistController(this);
-		
+		new PlayerController( viewPlayer, this );
+		new PlaylistController( viewPlaylist, this );
+		new LibraryController( viewLibrary, this );
+
 		buildMainLayout();
 	}
 
@@ -83,18 +81,16 @@ public class RamboiaApplication extends Application {
 	private void buildMainLayout() {
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSizeFull();
-		AbstractComponent pp = playerPresenter.getView();
-		layout.addComponent( pp );
-		HorizontalLayout hLayout = new HorizontalLayout();
-		hLayout.addComponent( libraryPresenter.getView() );
-		hLayout.addComponent( playlistPresenter.getView() );
-		hLayout.setSizeUndefined();
-		layout.addComponent(hLayout);
-		layout.setComponentAlignment(pp, Alignment.TOP_CENTER);
 
-		Window window = new Window( "RamboIA" );
-		window.setContent( layout );
-		setMainWindow( window );
+		layout.addComponent( viewPlayer );
+		HorizontalLayout hLayout = new HorizontalLayout();
+		hLayout.setWidth( "100%" );
+		hLayout.addComponent( viewLibrary );
+		hLayout.addComponent( viewPlaylist );
+		layout.addComponent(hLayout);
+		layout.setComponentAlignment( viewPlayer, Alignment.TOP_CENTER);
+
+		mainWindow.setContent( layout );
 	}
 
 	public Server getServer() {

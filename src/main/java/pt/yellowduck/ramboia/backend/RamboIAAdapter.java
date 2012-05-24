@@ -6,7 +6,7 @@ import pt.yellowduck.ramboia.backend.model.Song;
  * User: laught
  * Date: 17-05-2012 Time: 23:18
  */
-public class PlayerStateAdapter implements PlayerStateListener {
+public class RamboIAAdapter implements RamboIAListener {
 
 	@Override
 	public void playerPaused() {
@@ -30,6 +30,36 @@ public class PlayerStateAdapter implements PlayerStateListener {
 
 	@Override
 	public void playerUnpaused() {
+
+	}
+
+	@Override
+	public void songAdded() {
+
+	}
+
+	@Override
+	public void songDeleted() {
+
+	}
+
+	@Override
+	public void songChanged() {
+
+	}
+
+	@Override
+	public void playlistChanged() {
+
+	}
+
+	@Override
+	public void playlistEnded() {
+
+	}
+
+	@Override
+	public void volumeChanged( int volume ) {
 
 	}
 }

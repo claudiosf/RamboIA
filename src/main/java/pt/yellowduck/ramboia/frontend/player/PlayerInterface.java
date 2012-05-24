@@ -1,21 +1,17 @@
 package pt.yellowduck.ramboia.frontend.player;
 
-import com.vaadin.ui.AbstractComponent;
 import pt.yellowduck.ramboia.backend.model.Song;
+import pt.yellowduck.ramboia.frontend.RamboIAView;
 
 /**
  * User: laught
  * Date: 17-05-2012 Time: 21:26
  */
-public interface PlayerInterface {
-
-	public void setPresenter( PlayerPresenter presenter );
+public interface PlayerInterface extends RamboIAView< PlayerController > {
 
 	public void updateTrackPosition( Song song, long elapsedTime );
 
 	public interface PlayerPresenter {
-
-		public AbstractComponent getView();
 
 		public void play();
 

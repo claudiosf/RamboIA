@@ -41,7 +41,7 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 	private void setupLayout() {
 		treeLibrary.setSizeUndefined();
 
-//		panelScrollable.setWidth( "400px" );
+		panelScrollable.setWidth( "100%" );
 		panelScrollable.setHeight( "300px" );
 		panelScrollable.getContent().setSizeUndefined();
 		panelScrollable.addComponent( treeLibrary );
@@ -49,7 +49,7 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 	}
 
 	@Override
-	public void setPresenter( LibraryPresenter presenter ) {
+	public void setPresenter( LibraryController presenter ) {
 		this.presenter = presenter;
 	}
 

@@ -21,7 +21,11 @@ import org.bff.javampd.objects.MPDSong;
 
 public class Song {
 
-	private static final long serialVersionUID = 1L;
+	public static final String COLUMN_ARTIST = "artist";
+	
+	public static final String COLUMN_TITLE = "title";
+	
+	public static final String COLUMN_LENGTH = "length";
 	
 	private final MPDSong song;
 
@@ -33,21 +37,20 @@ public class Song {
 		return song;
 	}
 
-	@Override
-	public String toString() {
-		return song.getFile();
-	}
-
 	public String getTitle(){
-		return song.getTitle();
+		String result = song.getTitle();
+		if ( result == null ) {
+			result = song.getFile();
+		}
+		return result;
 	}
 	
 	public String getArtist(){
 		MPDArtist artist = song.getArtist();
-		return artist.getName();
+		return artist == null ? null : artist.getName();
 	}
 	
-	public int getLenght(){
+	public int getLength(){
 		return song.getLength();
 	}
 	
@@ -66,5 +69,10 @@ public class Song {
 	@Override
 	public int hashCode() {
 		return song != null ? song.hashCode() : 0;
+	}
+
+	@Override
+	public String toString() {
+		return song.getFile();
 	}
 }

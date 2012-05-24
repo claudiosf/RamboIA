@@ -1,25 +1,18 @@
 package pt.yellowduck.ramboia.frontend.playlist;
 
-import com.vaadin.data.Container;
-import com.vaadin.ui.AbstractComponent;
 import java.util.List;
 import pt.yellowduck.ramboia.backend.model.Song;
+import pt.yellowduck.ramboia.frontend.RamboIAView;
 
-public interface PlaylistInterface {
+public interface PlaylistInterface extends RamboIAView< PlaylistController > {
 
-	public void setPresenter( PlaylistPresenter presenter );
-
-	public Song getSelectedSong();
+	public void fill( List< Song > playlistSongs );
 
 	public interface PlaylistPresenter {
-		
-		public AbstractComponent getView();
-
-		public Song getSelectedSong();
 
 		public void play( Song song );
-
-		public Container getContainer();
+		
+		public void removeSelectedSongs( List< Song > selectedSongs );
 	}
 	
 }

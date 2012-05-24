@@ -12,8 +12,14 @@ public class RamboIALogger {
 		
 	}
 
+	public static void notify( Window window, String description ) {
+		notify( window, "Notify", description );
+	}
+	
 	public static void notify( Window window, String caption, String description ) {
-		window.showNotification( caption, description, Window.Notification.TYPE_WARNING_MESSAGE );
+		if ( window != null ) {
+			window.showNotification( caption, description, Window.Notification.TYPE_HUMANIZED_MESSAGE );
+		}
 	}
 	
 }
