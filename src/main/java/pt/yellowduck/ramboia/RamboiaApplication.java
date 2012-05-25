@@ -32,6 +32,8 @@ import pt.yellowduck.ramboia.frontend.player.PlayerController;
 import pt.yellowduck.ramboia.frontend.player.PlayerView;
 import pt.yellowduck.ramboia.frontend.playlist.PlaylistController;
 import pt.yellowduck.ramboia.frontend.playlist.PlaylistView;
+import pt.yellowduck.ramboia.frontend.upload.UploadController;
+import pt.yellowduck.ramboia.frontend.upload.UploadView;
 
 
 public class RamboiaApplication extends Application {
@@ -45,6 +47,8 @@ public class RamboiaApplication extends Application {
 	private final LibraryView viewLibrary = new LibraryView();
 	
 	private final PlaylistView viewPlaylist = new PlaylistView();
+	
+	private final UploadView viewUpload = new UploadView();
 
 	@Override
 	public void init() {
@@ -62,7 +66,8 @@ public class RamboiaApplication extends Application {
 		new PlayerController( viewPlayer, this );
 		new PlaylistController( viewPlaylist, this );
 		new LibraryController( viewLibrary, this );
-
+		new UploadController( viewUpload, this );
+		
 		buildMainLayout();
 	}
 
@@ -83,6 +88,7 @@ public class RamboiaApplication extends Application {
 		layout.setSizeFull();
 
 		layout.addComponent( viewPlayer );
+		layout.addComponent( viewUpload );
 		HorizontalLayout hLayout = new HorizontalLayout();
 		hLayout.setWidth( "100%" );
 		hLayout.addComponent( viewLibrary );
