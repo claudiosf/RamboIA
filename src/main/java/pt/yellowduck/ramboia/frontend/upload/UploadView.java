@@ -1,7 +1,6 @@
 package pt.yellowduck.ramboia.frontend.upload;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import com.vaadin.ui.Panel;
@@ -22,8 +21,8 @@ public class UploadView extends Panel implements UploadInterface {
 
 	private void setupComponents() {
 		setCaption("Get some new tunes");
-
-		upload = new Upload("Rock on", new Upload.Receiver() {
+		
+		upload = new Upload("", new Upload.Receiver() {
 
 			@Override
 			public OutputStream receiveUpload(String filename, String mimeType) {
@@ -50,6 +49,7 @@ public class UploadView extends Panel implements UploadInterface {
 				
 			}
 		});
+		upload.setButtonCaption("Rock on");
 	}
 
 	private void setupLayout() {
