@@ -37,16 +37,14 @@ public class UploadView extends Panel implements UploadInterface {
 			
 			@Override
 			public void uploadSucceeded(SucceededEvent event) {
-				// TODO Auto-generated method stub
-				
+				presenter.showNotification("New tune added successfully!!");
 			}
 		});
 		upload.addListener(new Upload.FailedListener() {
 			
 			@Override
 			public void uploadFailed(FailedEvent event) {
-				// TODO Auto-generated method stub
-				
+				presenter.showNotification("Failed to add new tune!!");
 			}
 		});
 		upload.setButtonCaption("Rock on");

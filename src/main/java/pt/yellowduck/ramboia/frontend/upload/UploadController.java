@@ -28,4 +28,8 @@ public class UploadController extends RamboIAController< UploadInterface > imple
 		}
 		return result;
 	}
+
+	public void showNotification(String string) {
+		getApplication().getMainWindow().showNotification(string);
+	}
 }
