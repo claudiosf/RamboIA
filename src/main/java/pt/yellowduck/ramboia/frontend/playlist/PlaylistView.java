@@ -1,5 +1,17 @@
 package pt.yellowduck.ramboia.frontend.playlist;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import pt.yellowduck.ramboia.backend.RamboIALogger;
+import pt.yellowduck.ramboia.backend.model.Song;
+import pt.yellowduck.ramboia.backend.model.SongContainer;
+import pt.yellowduck.ramboia.frontend.Utils;
+
+import com.github.wolfie.refresher.Refresher;
+import com.github.wolfie.refresher.Refresher.RefreshListener;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.event.Action;
@@ -8,14 +20,6 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Table;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import pt.yellowduck.ramboia.backend.RamboIALogger;
-import pt.yellowduck.ramboia.backend.model.Song;
-import pt.yellowduck.ramboia.backend.model.SongContainer;
-import pt.yellowduck.ramboia.frontend.Utils;
 
 public class PlaylistView extends Panel implements PlaylistInterface {
 
@@ -28,7 +32,7 @@ public class PlaylistView extends Panel implements PlaylistInterface {
 	private final Action[] SELECTED_ACTIONS = new Action[] { actionRemove };
 
 	private SongContainer songContainer = null;
-	
+
 	public PlaylistView() {
 		setupComponents();
 		setupLayout();
@@ -91,6 +95,17 @@ public class PlaylistView extends Panel implements PlaylistInterface {
 				}
 			}
 		});
+
+		final Refresher refresher = new Refresher();
+		refresher.setRefreshInterval(500);
+		refresher.addListener(new RefreshListener() {
+			
+			@Override
+			public void refresh(Refresher source) {
+				tablePlaylist.setContainerDataSource(tablePlaylist.getContainerDataSource());
+			}
+		});
+		addComponent(refresher);
 	}
 
 	private void setupLayout() {
@@ -115,13 +130,13 @@ public class PlaylistView extends Panel implements PlaylistInterface {
 			tablePlaylist.refreshRowCache();
 		}
 	}
-	
+
 	private void removeSelected() {
 		if ( presenter != null ) {
 			presenter.removeSelectedSongs( getSelectedRows() );
 		}
 	}
-	
+
 	private List< Song > getSelectedRows() {
 		List< Song > result = new LinkedList<Song>();
 
