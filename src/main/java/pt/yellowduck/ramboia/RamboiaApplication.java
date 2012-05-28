@@ -56,7 +56,7 @@ public class RamboiaApplication extends Application {
 		setMainWindow( mainWindow );
 
 		try {
-			this.server = new Server("127.0.0.1");
+			this.server = new Server("192.168.1.5");
 		} catch ( MPDConnectionException e ) {
 			RamboIALogger.notify(getMainWindow(), "Error", e.getLocalizedMessage());
 		} catch ( UnknownHostException e ) {
@@ -86,15 +86,15 @@ public class RamboiaApplication extends Application {
 	private void buildMainLayout() {
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSizeFull();
-
-		layout.addComponent( viewPlayer );
-		layout.addComponent( viewUpload );
+		HorizontalLayout hLayout1 = new HorizontalLayout();
+		hLayout1.addComponent( viewPlayer );
+		hLayout1.addComponent( viewUpload );
+		layout.addComponent(hLayout1);
 		HorizontalLayout hLayout = new HorizontalLayout();
 		hLayout.setWidth( "100%" );
 		hLayout.addComponent( viewLibrary );
 		hLayout.addComponent( viewPlaylist );
 		layout.addComponent(hLayout);
-		layout.setComponentAlignment( viewPlayer, Alignment.TOP_CENTER);
 
 		mainWindow.setContent( layout );
 	}

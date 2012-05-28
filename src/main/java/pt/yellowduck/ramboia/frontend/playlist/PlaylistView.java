@@ -48,6 +48,7 @@ public class PlaylistView extends Panel implements PlaylistInterface {
 		tablePlaylist.setImmediate( true );
 		tablePlaylist.setSelectable( true );
 		tablePlaylist.setMultiSelect( true );
+		tablePlaylist.setSortDisabled(true);
 		tablePlaylist.setContainerDataSource( songContainer );
 		tablePlaylist.setVisibleColumns( new String[] { Song.COLUMN_ARTIST, Song.COLUMN_TITLE, Song.COLUMN_LENGTH } );
 		tablePlaylist.setColumnHeaders( new String[] { "Artist", "Title", "Length" } );
