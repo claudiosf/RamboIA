@@ -52,4 +52,15 @@ public class LibraryController extends RamboIAController< LibraryInterface > imp
 		return result != null ? result : new LinkedList<SongFile>();
 	}
 
+	@Override
+	public void addToPlaylist(SongFile selected) {
+		try {
+			getApplication().getServer().addToPlaylist(selected);
+		} catch (MPDPlaylistException e) {
+			e.printStackTrace();
+		} catch (MPDConnectionException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

@@ -17,11 +17,11 @@ public class UploadController extends RamboIAController< UploadInterface > imple
 		super( view, application );
 	}
 
-	public Boolean uploadFile(File file, String mimeType) {
+	public Boolean uploadFile(File file, String filename, String mimeType) {
 		// Destination directory
 		File dir = new File(MUSIC_FOLDER);
 		// Move file to new directory
-		return file.renameTo(new File(dir, file.getName()));
+		return file.renameTo(new File(dir, filename));
 	}
 
 	public void showNotification(String string) {

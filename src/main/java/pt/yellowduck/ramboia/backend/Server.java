@@ -58,14 +58,14 @@ public class Server {
 
 	private Monitor monitorHolder = null;
 	private MPDStandAloneMonitor monitor = null;
-	
+
 	private final List<RamboIAListener> playerListeners = new LinkedList<RamboIAListener>();
 
 
 	public Server( String host ) throws MPDConnectionException, UnknownHostException {
 		this( host, DEFAULT_PORT );
 	}
-	
+
 	public Server( String host, int port ) throws MPDConnectionException, UnknownHostException {
 		mpd = new MPD( host, port );
 		player = mpd.getMPDPlayer();
@@ -97,7 +97,7 @@ public class Server {
 				fireVolumeChanged( volumeChangeEvent.getVolume() );
 			}
 		});
-		
+
 		monitorHolder = new Monitor( monitor );
 		monitorHolder.start();
 		MonitorsHolder.getInstance().addMonitor( monitorHolder );
@@ -142,66 +142,66 @@ public class Server {
 
 	private void firePlayerStateChanged( int state ) {
 		switch ( state ) {
-			case PlayerBasicChangeEvent.PLAYER_STARTED :
-				try {
-					Song currentSong = getCurrentSong();
-					for ( RamboIAListener listener : playerListeners ) {
-						listener.playerStarted( currentSong );
-					}
-				} catch ( MPDConnectionException e ) {
-					e.printStackTrace();
-				} catch ( MPDPlayerException e ) {
-					e.printStackTrace();
-				}
-				break;
-			case PlayerBasicChangeEvent.PLAYER_STOPPED :
+		case PlayerBasicChangeEvent.PLAYER_STARTED :
+			try {
+				Song currentSong = getCurrentSong();
 				for ( RamboIAListener listener : playerListeners ) {
-					listener.playerStopped();
+					listener.playerStarted( currentSong );
 				}
-				break;
-			case PlayerBasicChangeEvent.PLAYER_PAUSED :
-				for ( RamboIAListener listener : playerListeners ) {
-					listener.playerPaused();
-				}
-				break;
-			case PlayerBasicChangeEvent.PLAYER_UNPAUSED :
-				for ( RamboIAListener listener : playerListeners ) {
-					listener.playerUnpaused();
-				}
-				break;
+			} catch ( MPDConnectionException e ) {
+				e.printStackTrace();
+			} catch ( MPDPlayerException e ) {
+				e.printStackTrace();
+			}
+			break;
+		case PlayerBasicChangeEvent.PLAYER_STOPPED :
+			for ( RamboIAListener listener : playerListeners ) {
+				listener.playerStopped();
+			}
+			break;
+		case PlayerBasicChangeEvent.PLAYER_PAUSED :
+			for ( RamboIAListener listener : playerListeners ) {
+				listener.playerPaused();
+			}
+			break;
+		case PlayerBasicChangeEvent.PLAYER_UNPAUSED :
+			for ( RamboIAListener listener : playerListeners ) {
+				listener.playerUnpaused();
+			}
+			break;
 		}
 	}
 
 	private void firePlaylistChanged( int state ) {
 		switch ( state ) {
-			case PlaylistBasicChangeEvent.SONG_ADDED :
-				for ( RamboIAListener listener : playerListeners ) {
-					listener.songAdded();
-				}
-				break;
-			case PlaylistBasicChangeEvent.SONG_DELETED :
-				for ( RamboIAListener listener : playerListeners ) {
-					listener.songDeleted();
-				}
-				break;
-			case PlaylistBasicChangeEvent.SONG_CHANGED :
-				for ( RamboIAListener listener : playerListeners ) {
-					listener.songChanged();
-				}
-				break;
-			case PlaylistBasicChangeEvent.PLAYLIST_CHANGED :
-				for ( RamboIAListener listener : playerListeners ) {
-					listener.playlistChanged();
-				}
-				break;
-			case PlaylistBasicChangeEvent.PLAYLIST_ENDED :
-				for ( RamboIAListener listener : playerListeners ) {
-					listener.playlistEnded();
-				}
-				break;
+		case PlaylistBasicChangeEvent.SONG_ADDED :
+			for ( RamboIAListener listener : playerListeners ) {
+				listener.songAdded();
+			}
+			break;
+		case PlaylistBasicChangeEvent.SONG_DELETED :
+			for ( RamboIAListener listener : playerListeners ) {
+				listener.songDeleted();
+			}
+			break;
+		case PlaylistBasicChangeEvent.SONG_CHANGED :
+			for ( RamboIAListener listener : playerListeners ) {
+				listener.songChanged();
+			}
+			break;
+		case PlaylistBasicChangeEvent.PLAYLIST_CHANGED :
+			for ( RamboIAListener listener : playerListeners ) {
+				listener.playlistChanged();
+			}
+			break;
+		case PlaylistBasicChangeEvent.PLAYLIST_ENDED :
+			for ( RamboIAListener listener : playerListeners ) {
+				listener.playlistEnded();
+			}
+			break;
 		}
 	}
-	
+
 	private void fireVolumeChanged( int volume ) {
 		for ( RamboIAListener listener : playerListeners ) {
 			listener.volumeChanged( volume );
@@ -271,11 +271,11 @@ public class Server {
 		}
 		return result;
 	}
-	
+
 	public void stop() throws MPDConnectionException, MPDPlayerException {
 		player.stop();
 	}
-	
+
 	public void next() throws MPDConnectionException, MPDPlayerException {
 		player.playNext();
 	}
@@ -283,7 +283,7 @@ public class Server {
 	public void previous() throws MPDConnectionException, MPDPlayerException {
 		player.playPrev();
 	}
-	
+
 	public List< Song > listAllPlaylistSongs() throws MPDConnectionException, MPDDatabaseException {
 		List< Song > result = new LinkedList<Song>();
 		List< MPDSong > songList = playlist.getSongList();
@@ -306,12 +306,16 @@ public class Server {
 			}
 		}
 	}
-	
+
 	public int getVolume() throws MPDConnectionException, MPDPlayerException {
 		return player.getVolume();
 	}
-	
+
 	public void setVolume( int volume ) throws MPDConnectionException, MPDPlayerException {
 		player.setVolume( volume );
+	}
+
+	public void addToPlaylist(SongFile selected) throws MPDPlaylistException, MPDConnectionException {
+		playlist.addFileOrDirectory(selected.getFile());
 	}
 }

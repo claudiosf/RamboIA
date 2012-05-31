@@ -31,7 +31,8 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 			public void itemClick( ItemClickEvent itemClickEvent ) {
 				if ( itemClickEvent.isDoubleClick() ) {
 					if ( presenter != null ) {
-						presenter.play( getSelectedSong() );
+						SongFile selected = (SongFile) getSelectedSong();
+							presenter.addToPlaylist(selected);
 					}
 				}
 			}
@@ -54,12 +55,8 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 	}
 
 	@Override
-	public SongFile getSelectedSong() {
-		Object value = treeLibrary.getValue();
-		if ( value instanceof SongFile ) {
-			return ( SongFile ) value;
-		}
-		return null;
+	public Object getSelectedSong() {
+		return treeLibrary.getValue();
 	}
 
 	@Override

@@ -12,11 +12,13 @@ public interface LibraryInterface extends RamboIAView< LibraryController > {
 
 	public void fillLibrary( List<SongFile> songs );
 
-	public SongFile getSelectedSong();
+	public Object getSelectedSong();
 
 	public interface LibraryPresenter {
 
 		public void play( SongFile song );
+
+		public void addToPlaylist(SongFile selected);
 	}
 	
 }

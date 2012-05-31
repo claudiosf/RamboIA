@@ -30,7 +30,7 @@ public class UploadView extends Panel implements UploadInterface {
 			@Override
 			protected void handleFile(File file, String fileName,
 					String mimeType, long length) {
-				Boolean success = presenter.uploadFile(file, mimeType);
+				Boolean success = presenter.uploadFile(file, fileName, mimeType);
 				String msg = fileName + " ";
 				if(success == true){
 					msg = msg + "uploaded with success!!";
