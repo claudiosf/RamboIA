@@ -1,14 +1,14 @@
 package pt.yellowduck.ramboia.frontend.upload;
 
+import java.io.File;
+
 import pt.yellowduck.ramboia.frontend.RamboIAView;
 
-import com.vaadin.ui.Upload.FailedListener;
-import com.vaadin.ui.Upload.SucceededListener;
-
-public interface UploadInterface extends RamboIAView< UploadController >, SucceededListener, FailedListener {
-
+public interface UploadInterface extends RamboIAView< UploadController > {
+	
 	public interface UploadPresenter {
-
+		public Boolean uploadFile(File file, String mimeType);
+		public void showNotification(String msg);
 	}
 	
 }

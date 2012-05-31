@@ -56,7 +56,7 @@ public class RamboiaApplication extends Application {
 		setMainWindow( mainWindow );
 
 		try {
-			this.server = new Server("192.168.1.5");
+			this.server = new Server("localhost");
 		} catch ( MPDConnectionException e ) {
 			RamboIALogger.notify(getMainWindow(), "Error", e.getLocalizedMessage());
 		} catch ( UnknownHostException e ) {

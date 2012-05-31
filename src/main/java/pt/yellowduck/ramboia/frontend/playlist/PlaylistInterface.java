@@ -13,6 +13,8 @@ public interface PlaylistInterface extends RamboIAView< PlaylistController > {
 		public void play( Song song );
 		
 		public void removeSelectedSongs( List< Song > selectedSongs );
+		
+		public List< Song > fetchSongs();
 	}
 	
 }

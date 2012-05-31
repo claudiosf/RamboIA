@@ -95,17 +95,6 @@ public class PlaylistView extends Panel implements PlaylistInterface {
 				}
 			}
 		});
-
-		final Refresher refresher = new Refresher();
-		refresher.setRefreshInterval(500);
-		refresher.addListener(new RefreshListener() {
-			
-			@Override
-			public void refresh(Refresher source) {
-				tablePlaylist.setContainerDataSource(tablePlaylist.getContainerDataSource());
-			}
-		});
-		addComponent(refresher);
 	}
 
 	private void setupLayout() {

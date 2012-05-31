@@ -10,23 +10,18 @@ import pt.yellowduck.ramboia.frontend.RamboIAController;
 public class UploadController extends RamboIAController< UploadInterface > implements UploadInterface.UploadPresenter{
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static String MUSIC_FOLDER = "/var/lib/mpd/music/";
 
 	public UploadController( UploadView view, RamboiaApplication application ) {
 		super( view, application );
 	}
 
-	public OutputStream uploadFile(String filename, String mimeType) {
-		OutputStream result = null;
-		try {
-			File outFile = new File(MUSIC_FOLDER + filename);
-			outFile.createNewFile();
-			result = new FileOutputStream(outFile);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+	public Boolean uploadFile(File file, String mimeType) {
+		// Destination directory
+		File dir = new File(MUSIC_FOLDER);
+		// Move file to new directory
+		return file.renameTo(new File(dir, file.getName()));
 	}
 
 	public void showNotification(String string) {

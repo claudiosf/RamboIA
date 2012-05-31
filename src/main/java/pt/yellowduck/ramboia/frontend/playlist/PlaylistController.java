@@ -16,7 +16,7 @@ public class PlaylistController extends RamboIAController< PlaylistInterface > i
 	public PlaylistController( PlaylistView view, RamboiaApplication application ) {
 		super( view, application );
 
-		view.fill( fetchSongs() );
+		view.fill(fetchSongs());
 
 		application.getServer().addStateListener( new RamboIAAdapter() {
 			@Override
@@ -52,7 +52,7 @@ public class PlaylistController extends RamboIAController< PlaylistInterface > i
 		}
 	}
 
-	private List< Song > fetchSongs() {
+	public List< Song > fetchSongs() {
 		List< Song > result = null;
 		if ( application != null ) {
 			try {
