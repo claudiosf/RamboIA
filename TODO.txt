@@ -1,0 +1,8 @@
+Library 
+	- Text search
+	- Enqueue folders
+	- Update button to force library scan and update
+
+Playlist
+	- Update button to force update
+	- 
