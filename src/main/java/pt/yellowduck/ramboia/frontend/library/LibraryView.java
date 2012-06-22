@@ -1,9 +1,7 @@
 package pt.yellowduck.ramboia.frontend.library;
 
 import com.vaadin.event.ItemClickEvent;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.Tree;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import java.util.List;
 import pt.yellowduck.ramboia.backend.model.SongFile;
 
@@ -18,6 +16,10 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 	private final Panel panelScrollable = new Panel( "Music Library");
 
 	private final Tree treeLibrary = new Tree();
+        
+        private final TabSheet tabSheet = new TabSheet();
+        
+        private final Table table = new Table();
 
 	public LibraryView() {
 		setupComponents();
@@ -37,16 +39,28 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 				}
 			}
 		});
+                
+                
+                
+                table.addContainerProperty("Artist", String.class,  null);
+                
 	}
 	
 	private void setupLayout() {
+            
 		treeLibrary.setSizeUndefined();
-
-		panelScrollable.setWidth( "100%" );
-		panelScrollable.setHeight( "300px" );
+		panelScrollable.setSizeFull();
 		panelScrollable.getContent().setSizeUndefined();
 		panelScrollable.addComponent( treeLibrary );
-		addComponent(panelScrollable);
+                
+                
+                tabSheet.addTab(panelScrollable, "Filesystem");
+                tabSheet.addTab(table, "Mp3 Tags");
+                
+                
+                
+                
+		addComponent(tabSheet);
 	}
 
 	@Override
@@ -74,4 +88,18 @@ public class LibraryView extends VerticalLayout implements LibraryInterface {
 			}
 		}
 	}
+        
+        public void fillLibraryTags(List<String> artists) {
+        
+            if(artists != null) {
+            
+                for(int i = 0; i < artists.size(); i++ ) {
+                    
+                    table.addItem(new Object[] { artists.get(i) } , new Integer(i));
+                }
+                
+            }
+            
+        }
+        
 }

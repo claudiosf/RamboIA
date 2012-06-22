@@ -17,10 +17,8 @@
 package pt.yellowduck.ramboia;
 
 import com.vaadin.Application;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import com.vaadin.terminal.Sizeable;
+import com.vaadin.ui.*;
 import java.net.UnknownHostException;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDResponseException;
@@ -56,7 +54,7 @@ public class RamboiaApplication extends Application {
 		setMainWindow( mainWindow );
 
 		try {
-			this.server = new Server("localhost");
+			this.server = new Server("172.19.232.41");
 		} catch ( MPDConnectionException e ) {
 			RamboIALogger.notify(getMainWindow(), "Error", e.getLocalizedMessage());
 		} catch ( UnknownHostException e ) {
@@ -84,19 +82,30 @@ public class RamboiaApplication extends Application {
 	}
 
 	private void buildMainLayout() {
-		VerticalLayout layout = new VerticalLayout();
-		layout.setSizeFull();
-		HorizontalLayout hLayout1 = new HorizontalLayout();
-		hLayout1.addComponent( viewPlayer );
-		hLayout1.addComponent( viewUpload );
-		layout.addComponent(hLayout1);
-		HorizontalLayout hLayout = new HorizontalLayout();
-		hLayout.setWidth( "100%" );
-		hLayout.addComponent( viewLibrary );
-		hLayout.addComponent( viewPlaylist );
-		layout.addComponent(hLayout);
-
-		mainWindow.setContent( layout );
+		
+		VerticalSplitPanel vSplit = new VerticalSplitPanel();
+		vSplit.setSplitPosition(15, Sizeable.UNITS_PERCENTAGE);
+		vSplit.setSizeFull();
+		
+		HorizontalSplitPanel hSplit_top = new HorizontalSplitPanel();
+		hSplit_top.setSizeFull();
+		hSplit_top.setSplitPosition(50, Sizeable.UNITS_PERCENTAGE);
+		hSplit_top.setFirstComponent(viewPlayer);
+		hSplit_top.setSecondComponent(viewUpload);
+		hSplit_top.setLocked(true);
+		
+		vSplit.setFirstComponent(hSplit_top);
+		
+		HorizontalSplitPanel hSplit_bottom = new HorizontalSplitPanel();
+		hSplit_bottom.setSizeFull();
+		hSplit_bottom.setSplitPosition(75, Sizeable.UNITS_PERCENTAGE);
+		hSplit_bottom.setFirstComponent(viewLibrary);
+		hSplit_bottom.setSecondComponent(viewPlaylist);
+		hSplit_bottom.setLocked(true);
+		
+		vSplit.setSecondComponent(hSplit_bottom);
+		
+		mainWindow.setContent( vSplit );
 	}
 
 	public Server getServer() {

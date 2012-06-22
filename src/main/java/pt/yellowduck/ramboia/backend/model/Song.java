@@ -16,6 +16,7 @@
  */
 package pt.yellowduck.ramboia.backend.model;
 
+import org.bff.javampd.objects.MPDAlbum;
 import org.bff.javampd.objects.MPDArtist;
 import org.bff.javampd.objects.MPDSong;
 
@@ -49,6 +50,11 @@ public class Song {
 		MPDArtist artist = song.getArtist();
 		return artist == null ? null : artist.getName();
 	}
+        
+        public String getAlbum() {
+            MPDAlbum album = song.getAlbum();
+            return album == null ? null : album.getName();
+        }
 	
 	public int getLength(){
 		return song.getLength();

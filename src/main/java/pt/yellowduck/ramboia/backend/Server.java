@@ -208,10 +208,6 @@ public class Server {
 		}
 	}
 
-	public List< SongFile > listLibrary() throws MPDConnectionException, MPDDatabaseException {
-		return processRoots( database, database.listRootDirectory() );
-	}
-
 	private List<SongFile> processRoots( MPDDatabase db, Collection< MPDFile > roots ) throws MPDConnectionException, MPDDatabaseException {
 		List< SongFile > result = new LinkedList<SongFile>();
 		for ( MPDFile root : roots ) {
@@ -226,9 +222,32 @@ public class Server {
 		}
 		return result;
 	}
-
-	public Collection<MPDSong> listAllSongs() throws MPDConnectionException, MPDDatabaseException {
-		return database.listAllSongs();
+        
+        public List<Song> listAllPlaylistSongs() throws MPDConnectionException, MPDDatabaseException {
+		List< Song > result = new LinkedList<Song>();
+		List< MPDSong > songList = playlist.getSongList();
+		if ( songList != null ) {
+			for ( MPDSong song : songList ) {
+				result.add( new Song( song ) );
+			}
+		}
+		return result;
+	}
+        
+        
+	public Collection<Song> listAllSongs()  throws MPDConnectionException, MPDDatabaseException {
+            List< Song > result = new LinkedList<Song>();
+		Collection< MPDSong > songList = database.listAllSongs();
+		if ( songList != null ) {
+                    for ( MPDSong song : songList ) {
+                            result.add( new Song( song ) );
+                    }
+		}
+		return result;
+        }
+        
+        public List<SongFile> listLibrary() throws MPDConnectionException, MPDDatabaseException {
+		return processRoots( database, database.listRootDirectory() );
 	}
 
 	public Song getCurrentSong() throws MPDConnectionException, MPDPlayerException {
@@ -284,16 +303,8 @@ public class Server {
 		player.playPrev();
 	}
 
-	public List< Song > listAllPlaylistSongs() throws MPDConnectionException, MPDDatabaseException {
-		List< Song > result = new LinkedList<Song>();
-		List< MPDSong > songList = playlist.getSongList();
-		if ( songList != null ) {
-			for ( MPDSong song : songList ) {
-				result.add( new Song( song ) );
-			}
-		}
-		return result;
-	}
+	
+        
 
 	public boolean clearPlaylist() throws MPDPlaylistException, MPDConnectionException {
 		return playlist.clearPlaylist();

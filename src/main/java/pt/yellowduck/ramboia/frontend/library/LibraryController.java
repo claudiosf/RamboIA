@@ -1,13 +1,17 @@
 package pt.yellowduck.ramboia.frontend.library;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bff.javampd.exception.MPDConnectionException;
 import org.bff.javampd.exception.MPDDatabaseException;
 import org.bff.javampd.exception.MPDPlayerException;
 import org.bff.javampd.exception.MPDPlaylistException;
 import pt.yellowduck.ramboia.RamboiaApplication;
 import pt.yellowduck.ramboia.backend.RamboIALogger;
+import pt.yellowduck.ramboia.backend.model.Song;
 import pt.yellowduck.ramboia.backend.model.SongFile;
 import pt.yellowduck.ramboia.frontend.RamboIAController;
 
@@ -21,6 +25,8 @@ public class LibraryController extends RamboIAController< LibraryInterface > imp
 		super( view, application );
 		
 		view.fillLibrary( getLibrary() );
+                
+                view.fillLibraryTags( getArtists() );
 	}
 
 	@Override
@@ -39,6 +45,36 @@ public class LibraryController extends RamboIAController< LibraryInterface > imp
 			}
 		}
 	}
+        
+        
+        private List< String > getArtists() {
+            
+            List<String> artistList = new LinkedList<String> ();
+            
+            try {
+                Collection<Song> songList = application.getServer().listAllSongs();
+            
+                for(Song song : songList) {
+                    
+                    String artist = song.getArtist();
+                    
+                    if(!artistList.contains(artist)) {
+                        artistList.add(artist);
+                    }
+                    
+                }
+                
+                
+            } catch (MPDConnectionException ex) {
+                Logger.getLogger(LibraryController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MPDDatabaseException ex) {
+                Logger.getLogger(LibraryController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            return artistList;
+            
+        }
+        
 
 	private List< SongFile > getLibrary() {
 		List< SongFile > result = null;

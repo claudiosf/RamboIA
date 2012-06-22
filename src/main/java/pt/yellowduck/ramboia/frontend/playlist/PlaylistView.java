@@ -54,10 +54,10 @@ public class PlaylistView extends Panel implements PlaylistInterface {
 		tablePlaylist.setMultiSelect( true );
 		tablePlaylist.setSortDisabled(true);
 		tablePlaylist.setContainerDataSource( songContainer );
-		tablePlaylist.setVisibleColumns( new String[] { Song.COLUMN_ARTIST, Song.COLUMN_TITLE, Song.COLUMN_LENGTH } );
-		tablePlaylist.setColumnHeaders( new String[] { "Artist", "Title", "Length" } );
-		tablePlaylist.setColumnAlignment( Song.COLUMN_LENGTH, Table.ALIGN_RIGHT );
-		tablePlaylist.addGeneratedColumn( Song.COLUMN_LENGTH, new Table.ColumnGenerator() {
+		tablePlaylist.setVisibleColumns( new String[] { Song.COLUMN_ARTIST, Song.COLUMN_TITLE /*, Song.COLUMN_LENGTH*/ } );
+		tablePlaylist.setColumnHeaders( new String[] { "Artist", "Title" /*,"Length"*/ } );
+		//tablePlaylist.setColumnAlignment( Song.COLUMN_LENGTH, Table.ALIGN_RIGHT );
+		/* tablePlaylist.addGeneratedColumn( Song.COLUMN_LENGTH, new Table.ColumnGenerator() {
 			@Override
 			public Component generateCell( Table source, Object itemId, Object columnId ) {
 				Label result = new Label();
@@ -68,7 +68,7 @@ public class PlaylistView extends Panel implements PlaylistInterface {
 				}
 				return result;
 			}
-		} );
+		} );*/
 		tablePlaylist.addActionHandler( new Action.Handler() {
 			@Override
 			public Action[] getActions( Object target, Object sender ) {
