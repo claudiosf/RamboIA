@@ -1,4 +1,4 @@
 RamboIA
 =======
 
-mpd web interface
+Ramboia's a music box of intense amusement
